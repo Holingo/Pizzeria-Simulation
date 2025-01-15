@@ -37,9 +37,16 @@ void *cashier_behavior(void *arg) {
         sleep(2);
         printf("[Kasjer] Zamówienie '%s' zostało zrealizowane.\n", msg.text);
 
+        // Sformatowanie potwierdzenia w buforze tymczasowym
+        char temp_text[100];
+        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%s' zrealizowane.", msg.text);
+
+        // Skopiowanie potwierdzenia do struktury komunikatu
+        strncpy(msg.text, temp_text, sizeof(msg.text) - 1);
+        msg.text[sizeof(msg.text) - 1] = '\0'; // Upewnienie się, że tekst jest zakończony null
+
         // Wysyłanie potwierdzenia realizacji zamówienia
         msg.msg_type = 2; // Typ komunikatu dla potwierdzeń
-        snprintf(msg.text, sizeof(msg.text), "Zamówienie '%s' zrealizowane.", msg.text);
 
         if (msgsnd(msg_id, &msg, sizeof(msg.text), 0) == -1) {
             perror("[Kasjer] Błąd wysyłania potwierdzenia");
