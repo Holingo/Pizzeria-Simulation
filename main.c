@@ -132,14 +132,6 @@ void cleanup_resources() {
     }
 }
 
-void handle_fire_signal(int sig) {
-    printf("Otrzymano sygnał pożaru! Ewakuacja w toku...\n");
-    // Symulacja ewakuacji klientów
-    sleep(2);
-    printf("Ewakuacja zakończona. Zamknięcie lokalu.\n");
-    exit(EXIT_SUCCESS);
-}
-
 void *client_thread(void *arg) {
     int group_size = *(int *)arg;
     free(arg);
