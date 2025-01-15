@@ -18,20 +18,19 @@ typedef struct {
     int tables[MAX_TABLES]; // Liczba miejsc przy każdym stoliku
 } TableState;
 
-// Inline functions to handle semaphores
+// Inline funkcje do obsługi semaforów
 static inline void sem_lock(int sem_id) {
-    struct sembuf sb = {0, -1, 0}; // P operation (lock)
+    struct sembuf sb = {0, -1, 0}; // Operacja P (blokowanie)
     if (semop(sem_id, &sb, 1) == -1) {
-        perror("Semaphore operation error: lock");
+        perror("Błąd operacji semafora: lock");
     }
 }
 
 static inline void sem_unlock(int sem_id) {
-    struct sembuf sb = {0, 1, 0}; // V operation (unlock)
+    struct sembuf sb = {0, 1, 0}; // Operacja V (odblokowanie)
     if (semop(sem_id, &sb, 1) == -1) {
-        perror("Semaphore operation error: unlock");
+        perror("Błąd operacji semafora: unlock");
     }
 }
-
 
 #endif // UTILITIES_H
