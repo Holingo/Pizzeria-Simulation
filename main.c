@@ -1,5 +1,3 @@
-// main.cpp
-#include <iostream.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -11,17 +9,15 @@
 #include <sys/msg.h>
 #include <pthread.h>
 
-// Stale konfiguracyjne
+// Stałe konfiguracyjne
 #define MAX_TABLES 10
 #define SHM_KEY 1234
 #define SEM_KEY 5678
 #define MSG_KEY 9101
 
-using namespace std;
-
-// Struktura dla stanu stolikow
+// Struktura dla stanu stolików
 typedef struct {
-    int tables[MAX_TABLES]; // Liczba miejsc przy kazdym stoliku
+    int tables[MAX_TABLES]; // Liczba miejsc przy każdym stoliku
 } TableState;
 
 // Deklaracje funkcji
@@ -40,21 +36,21 @@ int msg_id;
 pthread_t cashier_tid, firefighter_tid;
 
 int main() {
-    // Rejestracja obslugi sygnalu pozaru
+    // Rejestracja obsługi sygnału pożaru
     signal(SIGUSR1, handle_fire_signal);
 
-    // Inicjalizacja zasobow IPC
+    // Inicjalizacja zasobów IPC
     initialize_resources();
 
-    // Tworzenie watku kasjera
+    // Tworzenie wątku kasjera
     if (pthread_create(&cashier_tid, NULL, cashier_thread, NULL) != 0) {
         perror("Nie udało się utworzyć wątku kasjera");
         cleanup_resources();
         exit(EXIT_FAILURE);
     }
 
-    // Tworzenie watku strazaka
-        if (pthread_create(&firefighter_tid, NULL, firefighter_thread, NULL) != 0) {
+    // Tworzenie wątku strażaka
+    if (pthread_create(&firefighter_tid, NULL, firefighter_thread, NULL) != 0) {
         perror("Nie udało się utworzyć wątku strażaka");
         cleanup_resources();
         exit(EXIT_FAILURE);
@@ -117,7 +113,7 @@ void initialize_resources() {
 }
 
 void cleanup_resources() {
-    // Usuwanie pamieci dzielonej
+    // Usuwanie pamięci dzielonej
     if (shmdt(table_state) == -1) {
         perror("Błąd odłączania pamięci dzielonej");
     }
