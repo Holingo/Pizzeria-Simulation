@@ -2,6 +2,8 @@
 #define UTILITIES_H
 
 #include <sys/sem.h>
+#include <sys/ipc.h>
+#include <sys/types.h>
 
 // Klucze do IPC
 #define SHM_KEY 1234
@@ -18,14 +20,14 @@ typedef struct {
 
 // Inline funkcje do obsługi semaforów
 static inline void sem_lock(int sem_id) {
-    struct sembuf sb = {0, -1, 0};
+    struct sembuf sb = {0, -1, 0}; // Operacja P (blokowanie)
     if (semop(sem_id, &sb, 1) == -1) {
         perror("Błąd operacji semafora: lock");
     }
 }
 
 static inline void sem_unlock(int sem_id) {
-    struct sembuf sb = {0, 1, 0};
+    struct sembuf sb = {0, 1, 0}; // Operacja V (odblokowanie)
     if (semop(sem_id, &sb, 1) == -1) {
         perror("Błąd operacji semafora: unlock");
     }
