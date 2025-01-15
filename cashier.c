@@ -40,7 +40,9 @@ void *cashier_behavior(void *arg) {
 
         // Sformatowanie potwierdzenia w buforze tymczasowym
         char temp_text[100];
-        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%.*s' zrealizowane.", (int)(sizeof(msg.text) - 1), msg.text);
+        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%.*s' zrealizowane.", 
+            (int)(sizeof(temp_text) - strlen("Zamówienie '' zrealizowane.") - 1), msg.text);
+
 
         // Skopiowanie potwierdzenia do struktury komunikatu
         strncpy(msg.text, temp_text, sizeof(msg.text) - 1);
