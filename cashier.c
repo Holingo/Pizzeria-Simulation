@@ -23,6 +23,8 @@ void *cashier_behavior(void *arg) {
     }
 
     while (1) {
+        struct message msg;
+
         // Oczekiwanie na komunikat od klienta
         if (msgrcv(msg_id, &msg, sizeof(msg.text), 1, 0) == -1) {
             perror("[Kasjer] Błąd odbierania komunikatu");
@@ -31,7 +33,7 @@ void *cashier_behavior(void *arg) {
 
         printf("[Kasjer] Otrzymano zamówienie: %s\n", msg.text);
 
-        // Symulacja realizacji zamównienia
+        // Symulacja realizacji zamówienia
         sleep(2);
         printf("[Kasjer] Zamówienie '%s' zostało zrealizowane.\n", msg.text);
 
@@ -43,6 +45,6 @@ void *cashier_behavior(void *arg) {
             perror("[Kasjer] Błąd wysyłania potwierdzenia");
         }
     }
-    
+
     return NULL;
 }
