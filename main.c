@@ -1,4 +1,5 @@
 // main.cpp
+#include <iostream.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -21,7 +22,7 @@ using namespace std;
 // Struktura dla stanu stolikow
 typedef struct {
     int tables[MAX_TABLES]; // Liczba miejsc przy kazdym stoliku
-} TablesState;
+} TableState;
 
 // Deklaracje funkcji
 void initialize_resources();
@@ -33,7 +34,7 @@ void *firefighter_thread(void *arg);
 
 // Globalne zmienne
 int shm_id;
-TablesState *table_state;
+TableState *table_state;
 int sem_id;
 int msg_id;
 pthread_t cashier_tid, firefighter_tid;
