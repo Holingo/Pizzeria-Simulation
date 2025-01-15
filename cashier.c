@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <string.h> // Dodano brakujący nagłówek
 #include "utilities.h" // Nagłówek wspólny dla wszystkich modułów
 
 // Struktura komunikatu
@@ -39,7 +40,7 @@ void *cashier_behavior(void *arg) {
 
         // Sformatowanie potwierdzenia w buforze tymczasowym
         char temp_text[100];
-        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%s' zrealizowane.", msg.text);
+        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%.*s' zrealizowane.", (int)(sizeof(msg.text) - 1), msg.text);
 
         // Skopiowanie potwierdzenia do struktury komunikatu
         strncpy(msg.text, temp_text, sizeof(msg.text) - 1);
