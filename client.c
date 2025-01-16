@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <sys/shm.h>
 #include "utilities.h"
 
 struct message {
