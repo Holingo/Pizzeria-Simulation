@@ -43,7 +43,7 @@ int main() {
     initialize_resources();
 
     // Tworzenie wątku kasjera
-    if (pthread_create(&cashier_tid, NULL, cashier_thread, NULL) != 0) {
+    if (pthread_create(&cashier_tid, NULL, cashier_behavior, NULL) != 0) {
         perror("Nie udało się utworzyć wątku kasjera");
         cleanup_resources();
         exit(EXIT_FAILURE);
