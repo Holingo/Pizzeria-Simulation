@@ -24,9 +24,9 @@ typedef struct {
 void initialize_resources();
 void cleanup_resources();
 void handle_fire_signal(int sig);
-void *client_thread(void *arg);
-void *cashier_thread(void *arg);
-void *firefighter_thread(void *arg);
+void *client_behavior(void *arg);
+void *cashier_behavior(void *arg);
+void *firefighter_behavior(void *arg);
 
 // Globalne zmienne
 int shm_id;
@@ -50,7 +50,7 @@ int main() {
     }
 
     // Tworzenie wątku strażaka
-    if (pthread_create(&firefighter_tid, NULL, firefighter_thread, NULL) != 0) {
+    if (pthread_create(&firefighter_tid, NULL, firefighter_behavior, NULL) != 0) {
         perror("Nie udało się utworzyć wątku strażaka");
         cleanup_resources();
         exit(EXIT_FAILURE);
@@ -61,7 +61,7 @@ int main() {
     for (int i = 0; i < 5; i++) {
         int *group_size = malloc(sizeof(int));
         *group_size = (i % 3) + 1; // Grupa 1-3 osobowa
-        if (pthread_create(&client_tid, NULL, client_thread, group_size) != 0) {
+        if (pthread_create(&client_tid, NULL, client_behavior, group_size) != 0) {
             perror("Nie udało się utworzyć wątku klienta");
         }
         sleep(1); // Symulacja czasu między przyjściem klientów
