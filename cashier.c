@@ -1,60 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
+// Updated cashier.c with improved logging and revenue tracking
+#include "utilities.h"
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#include <string.h> // Dodano brakujący nagłówek
-#include "utilities.h" // Nagłówek wspólny dla wszystkich modułów
-
-// Struktura komunikatu
-struct message {
-    long msg_type;
-    char text[100];
-};
+#include <unistd.h>
 
 void *cashier_behavior(void *arg) {
-    printf("[Kasjer] Rozpoczynam pracę.\n");
+    log_event("[Kasjer] Rozpoczynam prace");
 
-    // Uzyskanie dostępu do kolejki komunikatów
-    int msg_id = msgget(MSG_KEY, 0666);
-    if (msg_id == -1) {
-        perror("[Kasjer] Błąd uzyskiwania dostępu do kolejki komunikatów");
-        return NULL;
-    }
+    while (is_open) {
+        struct order_message msg;
 
-    while (1) {
-        struct message msg;
+        if (msgrcv(msg_id, &msg, sizeof(msg) - sizeof(long), 1, IPC_NOWAIT) != -1) {
+            char log_message[200];
 
-        // Oczekiwanie na komunikat od klienta
-        if (msgrcv(msg_id, &msg, sizeof(msg.text), 1, 0) == -1) {
-            perror("[Kasjer] Błąd odbierania komunikatu");
-            continue;
-        }
+            snprintf(log_message, sizeof(log_message), "[Kasjer] Realizacja zamowienia dla stolika %d. Zamowiono: %s (%.2f PLN)",
+                     msg.table_id + 1, msg.order, msg.price);
+            log_event(log_message);
 
-        printf("[Kasjer] Otrzymano zamówienie: %s\n", msg.text);
+            update_order_status(msg.table_id, "Realizacja w toku");
+            sleep(2); // Symulacja realizacji zamowienia
 
-        // Symulacja realizacji zamówienia
-        sleep(2);
-        printf("[Kasjer] Zamówienie '%s' zostało zrealizowane.\n", msg.text);
+            snprintf(log_message, sizeof(log_message), "[Kasjer] Zamowienie dla stolika %d zostalo zrealizowane (%.2f PLN)", 
+                     msg.table_id + 1, msg.price);
+            log_event(log_message);
 
-        // Sformatowanie potwierdzenia w buforze tymczasowym
-        char temp_text[100];
-        snprintf(temp_text, sizeof(temp_text), "Zamówienie '%.*s' zrealizowane.", 
-            (int)(sizeof(temp_text) - strlen("Zamówienie '' zrealizowane.") - 1), msg.text);
-
-
-        // Skopiowanie potwierdzenia do struktury komunikatu
-        strncpy(msg.text, temp_text, sizeof(msg.text) - 1);
-        msg.text[sizeof(msg.text) - 1] = '\0'; // Upewnienie się, że tekst jest zakończony null
-
-        // Wysyłanie potwierdzenia realizacji zamówienia
-        msg.msg_type = 2; // Typ komunikatu dla potwierdzeń
-
-        if (msgsnd(msg_id, &msg, sizeof(msg.text), 0) == -1) {
-            perror("[Kasjer] Błąd wysyłania potwierdzenia");
+            update_revenue(msg.price);
+            update_order_status(msg.table_id, "Zrealizowane");
+        } else {
+            usleep(100000); // Krotka przerwa, gdy brak zamowien
         }
     }
 
+    log_event("[Kasjer] Pizzeria zamknieta, koncze prace");
     return NULL;
 }

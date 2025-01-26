@@ -1,17 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -pthread
-TARGET = pizzeria
+LDFLAGS = -lncurses
 
-SRC = main.c client.c cashier.c firefighter.c
-OBJ = $(SRC:.c=.o)
+OBJS = main.o client.o cashier.o firefighter.o utilities.o
 
-all: $(TARGET)
-
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+pizzeria: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o pizzeria
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f *.o pizzeria

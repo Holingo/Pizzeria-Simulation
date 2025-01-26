@@ -1,34 +1,42 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+// Updated firefighter.c with improved fire signal handling and ncurses effect
+#include "utilities.h"
 #include <signal.h>
-#include "utilities.h" // Nagłówek wspólny dla wszystkich modułów
+#include <pthread.h>
+#include <unistd.h>
 
 void handle_fire_signal(int sig) {
     if (sig == SIGUSR1) {
-        printf("[Strażak] Otrzymano sygnał pożaru! Ewakuacja w toku ...\n");
+        log_event("[Strazak] Otrzymano sygnal pozaru! Wszyscy klienci opuszczaja lokal.");
+        is_open = 0; // Zamykanie pizzerii
 
-        // Symulacja ewakuacji
-        sleep(3);
+        // Efekt wizualny w ncurses
+        pthread_mutex_lock(&screen_mutex);
+        clear();
+        mvprintw(0, 0, "UWAGA! POZAR! LOKAL ZAMKNIETY!");
+        refresh();
+        pthread_mutex_unlock(&screen_mutex);
 
-        printf("[Strażak] Ewakuacja zakończona. Lokal jest pusty.\n");
-        exit(EXIT_SUCCESS);
+        // Czekanie na opuszczenie lokalu przez wszystkie watki
+        sleep(2); // Symulacja reakcji na pozar
     }
 }
 
 void *firefighter_behavior(void *arg) {
-    printf("[Strażak] W gotowości na sygnał pożaru.\n");
+    // Rejestracja obslugi sygnalu
+    struct sigaction sa;
+    sa.sa_handler = handle_fire_signal;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
 
-    // Rejestracja obsługi sygnału
-    if (signal(SIGUSR1, handle_fire_signal) == SIG_ERR) {
-        perror("[Strażak] Błąd rejestracji obsługi sygnału");
-        return NULL;
+    if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+        perror("[Strazak] Blad rejestracji obslugi sygnalu");
+        pthread_exit(NULL);
     }
 
-    // Niekończąca się pętla oczekiwania na sygnał
-    while (1) {
-        pause(); // Oczekiwanie na sygnał
+    while (is_open) {
+        pause(); // Oczekiwanie na sygnal pozaru
     }
-    
-    return NULL;
+
+    log_event("[Strazak] Lokal zostal zamkniety z powodu pozaru.");
+    pthread_exit(NULL);
 }
