@@ -23,24 +23,24 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
 ## Struktura projektu
 
 ### Pliki źródłowe
-1. **`main.c`**
+1. **`main.c`** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/main.c#L36)
    - Zarządza główną pętlą programu.
    - Inicjalizuje zasoby i wątki.
    - Obsługuje sygnały (`SIGUSR1` i `SIGINT`).
 
-2. **`cashier.c`**
+2. **`cashier.c`** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/cashier.c#L9)
    - Odpowiada za obsługę zamówień przez kasjera.
    - Aktualizuje status stolików i dochód.
 
-3. **`client.c`**
+3. **`client.c`** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/client.c#L16)
    - Symuluje klientów wchodzących do pizzerii.
    - Tworzy procesy dla klientów, którzy zajmują stoliki i składają zamówienia.
 
-4. **`firefighter.c`**
+4. **`firefighter.c`** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/firefighter.c#L19)
    - Obsługuje sygnał pożaru (`SIGUSR1`).
    - Zamyka lokal w przypadku sytuacji awaryjnej.
 
-5. **`utilities.c` i `utilities.h`**
+5. **`utilities.c` i `utilities.h`** [Link do kodu 1](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/utilities.c#L48)[ Link do kodu 2](https://github.com/Holingo/Pizzeria-Simulation/blob/39ae00a1973232b8a0e7dfcfd632da460a91fe53/utilities.h#L1)
    - Zawiera funkcje pomocnicze, takie jak logowanie, zarządzanie interfejsem, obsługa semaforów i pamięci współdzielonej.
 
 ---
