@@ -122,7 +122,7 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
 
 ## Linki do istotnych fragmentów kodu
 
-1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27-L31)[`fork()`](#)[ w ](#)[`client.c`](#)
+1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)[`fork()`][ w ][`client.c`](#)
 2. **Tworzenie wątków:** [Link do kodu ](#)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
 3. **Obsługa sygnałów:** [Link do kodu ](#)[`signal()`](#)[ w ](#)[`firefighter.c`](#)
 4. **Synchronizacja semaforów:** [Link do kodu ](#)[`semop()`](#)[ w ](#)[`utilities.c`](#)
