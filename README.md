@@ -125,50 +125,21 @@ Aby uruchomić program, użyj:
 ---
 
 ## Struktury danych
-- [Link do kodu ]**`Table`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L53-L58) - przechowuje informacje o stolikach.
-```c
-typedef struct {
-    int capacity;       // Liczba miejsc przy stoliku
-    int occupied;       // Liczba zajętych miejsc
-    char order_status[100]; // Status zamówienia
-} Table;
-```
-- [Link do kodu ]**`order_message`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L30-L37) - struktura zamówienia przesyłanego przez kolejkę komunikatów.
-```c
-struct order_message {
-    long msg_type;      // Typ wiadomości
-    int table_id;       // ID stolika
-    int group_id;       // ID grupy klientów
-    char order[100];    // Zamówienie
-    float price;        // Cena zamówienia
-};
-```
-- [Link do kodu ]**`log_message`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L39-L42) - struktura do logowania zdarzeń.
-```c
-struct log_message {
-    long msg_type;      // Typ wiadomości
-    char content[200];  // Treść loga
-};
-```
+- **`Table`** - przechowuje informacje o stolikach.
+(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L53-L58)
+
+- **`order_message`** - struktura zamówienia przesyłanego przez kolejkę komunikatów.
+(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L30-L37)
+
+- **`log_message`** - struktura do logowania zdarzeń.
+(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L39-L42)
 
 ---
 
 ## Linki do istotnych fragmentów kodu
 1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)[`fork()`](#)[ w ](#)[`client.c`](#)
-```c
-        pid_t pid = fork();
-        if (pid == 0) {
-            pthread_mutex_destroy(&screen_mutex);
-            pthread_mutex_init(&screen_mutex, NULL);
+(https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)
 
-
-            srand(time(NULL) ^ getpid());
-            int group_size = (rand() % 3) + 1;
-
-
-            simulate_client(i + 1, group_size);
-            exit(EXIT_SUCCESS);
-```
 2. **Tworzenie wątków:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
 ```c
     if (pthread_create(&log_listener_tid, NULL, log_listener, NULL) != 0) {
