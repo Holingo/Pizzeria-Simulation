@@ -130,6 +130,12 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
             pthread_mutex_init(&screen_mutex, NULL);
 
 
+            srand(time(NULL) ^ getpid());
+            int group_size = (rand() % 3) + 1;
+
+
+            simulate_client(i + 1, group_size);
+            exit(EXIT_SUCCESS);
 ```
 2. **Tworzenie wątków:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
 ```c
@@ -162,6 +168,14 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
     }
 ```
 3. **Obsługa sygnałów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/firefighter.c#L20-L25)[`signal()`](#)[ w ](#)[`firefighter.c`](#)
+```c
+    struct sigaction sa;
+    sa.sa_handler = handle_fire_signal;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+
+    if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+```
 4. **Synchronizacja semaforów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/utilities.c#L113-L127)[`semop()`](#)[ w ](#)[`utilities.c`](#)
 ```c
 void sem_lock(int sem_id) {
@@ -182,7 +196,15 @@ void sem_unlock(int sem_id) {
 }
 ```
 5. **Pamięć współdzielona:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126)[`shmget()`](#)[ w ](#)[`main.c`](#)
+```c
+    shm_id = shmget(SHM_KEY, sizeof(Table) * (X1 + X2 + X3 + X4), IPC_CREAT | 0666);
+```
 6. **Kolejki komunikatów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70)[`msgsnd()`](#)[ w ](#)[`client.c`](#)
+```c
+    // Logowanie rozpoczęcia symulacji
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
+```
 
 ---
 
