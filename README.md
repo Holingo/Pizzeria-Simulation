@@ -1,32 +1,47 @@
-# Projekt: Pizzeria
+# Raport i README projektu: Pizzeria
 
-## Opis projektu
-Symulacja pizzerii zarządzanej przy użyciu procesów i wątków, w której klienci zamawiają pizzę, zajmują stoliki, a kasjer obsługuje zamówienia. Strażak odpowiada za sytuacje awaryjne, takie jak sygnał o pożarze. Program wykorzystuje zaawansowane mechanizmy IPC (pamięć współdzielona, kolejki komunikatów, semafory) oraz wątki do zarządzania konkurencją między procesami.
+## Informacje ogólne
+**Autor:** Oskar Świątek  
+**Numer albumu:** 152699  
+**Temat projektu:** Pizzeria, Temat nr 9  
+**Repozytorium:** [Link do GitHub](https://github.com/Holingo/Pizzeria-Simulation/)  
+
+---
+
+## Założenia projektowe
+Projekt polega na stworzeniu symulacji pizzerii, która zarządza:
+
+- Stolikami o różnej pojemności (1-, 2-, 3- i 4-osobowe).
+- Klientami wchodzącymi do lokalu w grupach (1–4 osoby).
+- Obsługą zamówień realizowanych przez kasjera.
+- Obsługą sytuacji awaryjnych (np. pożar sygnalizowany sygnałem `SIGUSR1`).
+
+System korzysta z procesów i wątków do symulacji współbieżnych działań oraz z mechanizmów IPC (kolejki komunikatów, pamięć współdzielona, semafory) do komunikacji i synchronizacji między elementami.
 
 ---
 
 ## Struktura projektu
 
 ### Pliki źródłowe
-- **main.c**
-  - Zarządza główną pętlą programu.
-  - Inicjalizuje zasoby i wątki.
-  - Obsługuje sygnały.
+1. **`main.c`**
+   - Zarządza główną pętlą programu.
+   - Inicjalizuje zasoby i wątki.
+   - Obsługuje sygnały (`SIGUSR1` i `SIGINT`).
 
-- **cashier.c**
-  - Odpowiada za obsługę zamówień przez kasjera.
-  - Aktualizuje status stolików i dochód.
+2. **`cashier.c`**
+   - Odpowiada za obsługę zamówień przez kasjera.
+   - Aktualizuje status stolików i dochód.
 
-- **client.c**
-  - Symuluje klientów wchodzących do pizzerii.
-  - Tworzy procesy dla klientów, którzy zajmują stoliki i składają zamówienia.
+3. **`client.c`**
+   - Symuluje klientów wchodzących do pizzerii.
+   - Tworzy procesy dla klientów, którzy zajmują stoliki i składają zamówienia.
 
-- **firefighter.c**
-  - Obsługuje sygnał pożaru (SIGUSR1).
-  - Zamyka lokal w przypadku sytuacji awaryjnej.
+4. **`firefighter.c`**
+   - Obsługuje sygnał pożaru (`SIGUSR1`).
+   - Zamyka lokal w przypadku sytuacji awaryjnej.
 
-- **utilities.c / utilities.h**
-  - Zawiera funkcje pomocnicze, takie jak logowanie, zarządzanie interfejsem, obsługa semaforów i pamięci współdzielonej.
+5. **`utilities.c` i `utilities.h`**
+   - Zawiera funkcje pomocnicze, takie jak logowanie, zarządzanie interfejsem, obsługa semaforów i pamięci współdzielonej.
 
 ---
 
@@ -36,24 +51,12 @@ Symulacja pizzerii zarządzanej przy użyciu procesów i wątków, w której kli
 2. **Interfejs użytkownika:**
    - Wyświetla status stolików, zamówienia i logi w przejrzysty sposób z użyciem kolorów.
 3. **Obsługa sygnałów:**
-   - SIGUSR1 - sygnał pożaru, powodujący natychmiastowe zamknięcie lokalu.
-   - SIGINT - sygnał zamknięcia programu.
+   - `SIGUSR1` - sygnał pożaru, powodujący natychmiastowe zamknięcie lokalu.
+   - `SIGINT` - sygnał zamknięcia programu.
 4. **Synchronizacja:**
    - Wykorzystuje semafory do zarządzania dostępem do pamięci współdzielonej.
 5. **Komunikacja między procesami:**
    - Kolejki komunikatów do przesyłania zamówień i logów.
-
----
-
-## Wymagania techniczne
-- **System operacyjny:** Linux (wymagany do obsługi funkcji IPC).
-- **Kompilator:** GCC (z obsługą `-pthread`).
-- **Biblioteki:**
-  - `pthread`
-  - `sys/ipc.h`
-  - `sys/msg.h`
-  - `sys/sem.h`
-  - `sys/shm.h`
 
 ---
 
@@ -63,6 +66,10 @@ Symulacja pizzerii zarządzanej przy użyciu procesów i wątków, w której kli
 Użyj poniższego polecenia, aby skompilować projekt:
 ```bash
 gcc -Wall -pthread main.c cashier.c client.c firefighter.c utilities.c -o pizzeria
+
+albo 
+
+make
 ```
 
 ### Uruchomienie
@@ -73,7 +80,7 @@ Aby uruchomić program, użyj:
 - X1, X2, X3, X4 - liczba stolików 1-, 2-, 3- i 4-osobowych.
 - Przykład:
   ```bash
-  ./pizzeria 2 2 2 2
+  ./pizzeria 1 1 1 1 (Domyślnie)
   ```
 
 ---
@@ -93,6 +100,30 @@ Aby uruchomić program, użyj:
 
 ---
 
+## Testy
+
+### Scenariusze testowe
+1. **Standardowe działanie:**
+   - Uruchomienie programu z różnymi konfiguracjami stolików.
+   - Klienci wchodzą, zajmują stoliki i opuszczają lokal.
+2. **Sygnał `SIGUSR1`:**
+   - Wysłanie sygnału podczas działania programu.
+   - Sprawdzenie, czy wszyscy klienci opuszczają lokal, a kasjer kończy pracę.
+3. **Zamykanie programu (`SIGINT`):**
+   - Sprawdzenie, czy wszystkie zasoby systemowe są poprawnie usuwane.
+4. **Obsługa błędów:**
+   - Próba uruchomienia programu bez wystarczających uprawnień.
+   - Próba zajęcia stolika przez zbyt dużą grupę.
+
+---
+
+## Przykładowe wyniki
+- Wszystkie logi zdarzeń są poprawnie wyświetlane i zapisywane do pliku.
+- Po wysłaniu sygnału `SIGUSR1` wszyscy klienci opuszczają lokal, a program kontynuuje działanie.
+- Program kończy działanie bez pozostawiania zasobów IPC.
+
+---
+
 ## Struktury danych
 - **`Table`** - przechowuje informacje o stolikach.
 - **`order_message`** - struktura zamówienia przesyłanego przez kolejkę komunikatów.
@@ -100,12 +131,92 @@ Aby uruchomić program, użyj:
 
 ---
 
-## Informacje dodatkowe
-- Plik `debug.log` przechowuje logi działania programu.
-- Program automatycznie usuwa wszystkie zasoby IPC po zakończeniu pracy.
+## Linki do istotnych fragmentów kodu
+1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)[`fork()`](#)[ w ](#)[`client.c`](#)
+```c
+        pid_t pid = fork();
+        if (pid == 0) {
+            pthread_mutex_destroy(&screen_mutex);
+            pthread_mutex_init(&screen_mutex, NULL);
+
+
+            srand(time(NULL) ^ getpid());
+            int group_size = (rand() % 3) + 1;
+
+
+            simulate_client(i + 1, group_size);
+            exit(EXIT_SUCCESS);
+```
+2. **Tworzenie wątków:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
+```c
+    if (pthread_create(&log_listener_tid, NULL, log_listener, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku nasłuchującego logi");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    if (pthread_create(&cashier_tid, NULL, cashier_behavior, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku kasjera");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    if (pthread_create(&firefighter_tid, NULL, firefighter_behavior, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku strażaka");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    int num_clients = 5;
+    if (pthread_create(&client_spawner_tid, NULL, client_spawner, &num_clients) != 0) {
+        perror("Nie udało się utworzyć wątku klientów");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+```
+3. **Obsługa sygnałów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/firefighter.c#L20-L25)[`signal()`](#)[ w ](#)[`firefighter.c`](#)
+```c
+    struct sigaction sa;
+    sa.sa_handler = handle_fire_signal;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+
+    if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+```
+4. **Synchronizacja semaforów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/utilities.c#L113-L127)[`semop()`](#)[ w ](#)[`utilities.c`](#)
+```c
+void sem_lock(int sem_id) {
+    struct sembuf op = {0, -1, 0};
+    if (semop(sem_id, &op, 1) == -1) {
+        perror("Semafor: błąd blokowania");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+void sem_unlock(int sem_id) {
+    struct sembuf op = {0, 1, 0};
+    if (semop(sem_id, &op, 1) == -1) {
+        perror("Semafor: błąd odblokowywania");
+        exit(EXIT_FAILURE);
+    }
+}
+```
+5. **Pamięć współdzielona:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126)[`shmget()`](#)[ w ](#)[`main.c`](#)
+```c
+    shm_id = shmget(SHM_KEY, sizeof(Table) * (X1 + X2 + X3 + X4), IPC_CREAT | 0666);
+```
+6. **Kolejki komunikatów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70)[`msgsnd()`](#)[ w ](#)[`client.c`](#)
+```c
+    // Logowanie rozpoczęcia symulacji
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
+```
 
 ---
 
-## Autor
-Project power by Oskar Świątek.
-
+## Podsumowanie
+Projekt został zrealizowany zgodnie z wymaganiami, z uwzględnieniem dodatkowych funkcjonalności, takich jak kolorowy interfejs użytkownika i zaawansowana obsługa błędów. Wszystkie testy zakończyły się pomyślnie, a kod spełnia kryteria czytelności i modularności.

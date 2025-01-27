@@ -1,9 +1,9 @@
-# Raport z projektu: Pizzeria NR9
+# Raport z projektu: Pizzeria NR.9
 
 ## Informacje ogólne
 
 **Autor:** Oskar Świątek\
-**Numer albumu:** [Numer Albumu]\
+**Numer albumu:** 152699\
 **Temat projektu:** Pizzeria, Temat nr. 9\
 **Repozytorium:** [\[Link do GitHub\]](https://github.com/Holingo/Pizzeria-Simulation/)
 
@@ -47,7 +47,7 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
    - Obsługuje sygnał `SIGUSR1` (pożar).
    - Powoduje wyjście wszystkich klientów z lokalu i zamknięcie kasjera.
 
-5. **`utilities.c`**\*\* i \*\***`utilities.h`**
+5. **`utilities.c`** i **`utilities.h`**
 
    - Zawiera funkcje wspólne, takie jak logowanie, obsługa interfejsu użytkownika, zarządzanie semaforami i pamięcią współdzieloną.
    - Obsługuje synchronizację i wyświetlanie w terminalu.
