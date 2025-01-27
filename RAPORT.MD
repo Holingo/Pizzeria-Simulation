@@ -123,25 +123,66 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
 ## Linki do istotnych fragmentów kodu
 
 1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)[`fork()`](#)[ w ](#)[`client.c`](#)
+```c
+        pid_t pid = fork();
+        if (pid == 0) {
+            pthread_mutex_destroy(&screen_mutex);
+            pthread_mutex_init(&screen_mutex, NULL);
+
+
+```
 2. **Tworzenie wątków:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
+```c
+    if (pthread_create(&log_listener_tid, NULL, log_listener, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku nasłuchującego logi");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    if (pthread_create(&cashier_tid, NULL, cashier_behavior, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku kasjera");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    if (pthread_create(&firefighter_tid, NULL, firefighter_behavior, NULL) != 0) {
+        perror("Nie udało się utworzyć wątku strażaka");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
+
+    int num_clients = 5;
+    if (pthread_create(&client_spawner_tid, NULL, client_spawner, &num_clients) != 0) {
+        perror("Nie udało się utworzyć wątku klientów");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+```
 3. **Obsługa sygnałów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/firefighter.c#L20-L25)[`signal()`](#)[ w ](#)[`firefighter.c`](#)
 4. **Synchronizacja semaforów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/utilities.c#L113-L127)[`semop()`](#)[ w ](#)[`utilities.c`](#)
-5. **Pamięć współdzielona:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126)[`shmget()`](#)[ w ](#)[`main.c`](#)
-6. **Kolejki komunikatów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70)[`msgsnd()`](#)[ w ](#)[`client.c`](#)
-
----
-
-### Obsługa sygnału `SIGUSR1` w `firefighter.c`
-
 ```c
-void handle_fire_signal(int sig) {
-    if (sig == SIGUSR1) {
-        log_event("[Strażak] Otrzymano sygnał pożaru! Wszyscy klienci opuszczają lokal.");
-        is_open = 0; // Zamykanie lokalu
-        log_event("[Strażak] Lokal zostanie zamknięty.");
-        sleep(2); // Symulacja reakcji na pożar
+void sem_lock(int sem_id) {
+    struct sembuf op = {0, -1, 0};
+    if (semop(sem_id, &op, 1) == -1) {
+        perror("Semafor: błąd blokowania");
+        exit(EXIT_FAILURE);
     }
 }
+
+
+void sem_unlock(int sem_id) {
+    struct sembuf op = {0, 1, 0};
+    if (semop(sem_id, &op, 1) == -1) {
+        perror("Semafor: błąd odblokowywania");
+        exit(EXIT_FAILURE);
+    }
+}
+```
+5. **Pamięć współdzielona:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126)[`shmget()`](#)[ w ](#)[`main.c`](#)
+6. **Kolejki komunikatów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70)[`msgsnd()`](#)[ w ](#)[`client.c`](#)
 
 ---
 
