@@ -1,4 +1,6 @@
-// Updated utilities.c to retain historical logs in console
+// Plik: utilities.c
+// Opis: Plik zawiera implementację funkcji wspólnych dla całego projektu. Obsługuje logowanie, interfejs konsoli, semafory oraz zarządzanie pamięcią współdzieloną.
+
 #include "utilities.h"
 #include <time.h>
 #include <stdio.h>
@@ -10,12 +12,10 @@
 
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 float total_revenue = 0;
-
-// Global log buffer
-struct log_message log_messages[MAX_LOGS];
 int log_count = 0;
+struct log_message log_messages[MAX_LOGS];
 
-// ANSI Color Codes
+// Kolory ANSI dla terminala
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -27,22 +27,15 @@ int log_count = 0;
 
 void log_event(const char *message) {
     pthread_mutex_lock(&screen_mutex);
-
-    // Dodawanie wiadomości do bufora logów
     if (log_count < MAX_LOGS) {
-        snprintf(log_messages[log_count].content, sizeof(log_messages[log_count].content), "%s", message);
-        log_messages[log_count].msg_type = 1; // Typ logu
-        log_count++;
+        snprintf(log_messages[log_count++].content, sizeof(log_messages[0].content), "%s", message);
     } else {
-        // Przesuwanie bufora logów w górę
         for (int i = 1; i < MAX_LOGS; i++) {
             log_messages[i - 1] = log_messages[i];
         }
-        snprintf(log_messages[MAX_LOGS - 1].content, sizeof(log_messages[MAX_LOGS - 1].content), "%s", message);
-        log_messages[MAX_LOGS - 1].msg_type = 1;
+        snprintf(log_messages[MAX_LOGS - 1].content, sizeof(log_messages[0].content), "%s", message);
     }
 
-    // Zapis do pliku logów
     FILE *log_file = fopen("debug.log", "a");
     if (log_file) {
         fprintf(log_file, "%s\n", message);
@@ -54,44 +47,33 @@ void log_event(const char *message) {
 
 void display_interface(Table *tables, int table_count) {
     pthread_mutex_lock(&screen_mutex);
-
-    // Clear the screen
-    system("clear"); // Czyszczenie konsoli
-    printf("\033[H\033[J");
-
-    // Header
+    system("clear");
     printf("============================================================\n");
     printf("                     %sPIZZERIA%s\n", CYAN, RESET);
     printf("============================================================\n\n");
 
-    // Tables
-    printf("%s[STOLIKI]%s\n", CYAN, RESET);
-    printf("------------------------------------------------------------\n");
+    printf("%s[STOLIKI]%s\n------------------------------------------------------------\n", CYAN, RESET);
     for (int i = 0; i < table_count; i++) {
-        printf("Stolik %d | %s%s%s   | Zamowienie: %s%s%s\n", 
+        printf("Stolik %d | %s%s%s   | Zamówienie: %s%s%s\n", 
                i + 1,
-               tables[i].occupied > 0 ? RED : GREEN,
-               tables[i].occupied > 0 ? "Zajety" : "Wolny", RESET,
+               tables[i].occupied ? RED : GREEN,
+               tables[i].occupied ? "Zajęty" : "Wolny", RESET,
                tables[i].order_status[0] ? BLUE : YELLOW,
                tables[i].order_status[0] ? tables[i].order_status : "Brak", RESET);
     }
 
-    // Revenue
-    printf("\n%s[DOCHOD]%s\n", CYAN, RESET);
-    printf("------------------------------------------------------------\n");
-    printf("Laczny dochod: %s%.2f PLN%s\n\n", YELLOW, total_revenue, RESET);
+    printf("\n%s[DOCHÓD]%s\n------------------------------------------------------------\n", CYAN, RESET);
+    printf("Łączny dochód: %s%.2f PLN%s\n\n", YELLOW, total_revenue, RESET);
 
-    // Logs
-    printf("%s[LOGI]%s\n", CYAN, RESET);
-    printf("------------------------------------------------------------\n");
+    printf("%s[LOGI]%s\n------------------------------------------------------------\n", CYAN, RESET);
     for (int i = 0; i < log_count; i++) {
-        const char *color = WHITE; // Default color
+        const char *color = WHITE; // Domyślny kolor
         if (strstr(log_messages[i].content, "[Klient")) {
-            color = CYAN; // Klient in CYAN
+            color = CYAN; // Logi klientów w kolorze CYAN
         } else if (strstr(log_messages[i].content, "[Kasjer")) {
-            color = GREEN; // Kasjer in GREEN
+            color = GREEN; // Logi kasjera w kolorze GREEN
         } else if (strstr(log_messages[i].content, "ALERT")) {
-            color = RED_BG; // Alert in RED_BG
+            color = RED_BG; // Logi alertów w kolorze tła RED_BG
         }
         printf("%s%s%s\n", color, log_messages[i].content, RESET);
     }
@@ -113,27 +95,23 @@ void update_revenue(float amount) {
 }
 
 void init_console() {
-    printf("Pizzeria uruchomiona!\n");
-
-    // Initialize debug.log file
     FILE *debug_log = fopen("debug.log", "w");
     if (debug_log) {
         fprintf(debug_log, "Logi z uruchomienia pizzerii\n");
         fclose(debug_log);
     } else {
-        perror("[Init] Nie można utworzyć pliku debug.log");
+        perror("Nie można utworzyć debug.log");
     }
 }
 
-
 void cleanup_console() {
-    printf("Zamkniecie pizzerii. Dziekujemy!\n");
+    printf("Zamknięcie pizzerii. Dziękujemy!\n");
 }
 
 void sem_lock(int sem_id) {
     struct sembuf op = {0, -1, 0};
     if (semop(sem_id, &op, 1) == -1) {
-        perror("[Semafor] Blad blokowania");
+        perror("Semafor: błąd blokowania");
         exit(EXIT_FAILURE);
     }
 }
@@ -141,7 +119,7 @@ void sem_lock(int sem_id) {
 void sem_unlock(int sem_id) {
     struct sembuf op = {0, 1, 0};
     if (semop(sem_id, &op, 1) == -1) {
-        perror("[Semafor] Blad odblokowywania");
+        perror("Semafor: błąd odblokowywania");
         exit(EXIT_FAILURE);
     }
 }

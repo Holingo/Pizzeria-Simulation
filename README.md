@@ -1,95 +1,111 @@
-
 # Projekt: Pizzeria
 
-## 1. Wprowadzenie
+## Opis projektu
+Symulacja pizzerii zarządzanej przy użyciu procesów i wątków, w której klienci zamawiają pizzę, zajmują stoliki, a kasjer obsługuje zamówienia. Strażak odpowiada za sytuacje awaryjne, takie jak sygnał o pożarze. Program wykorzystuje zaawansowane mechanizmy IPC (pamięć współdzielona, kolejki komunikatów, semafory) oraz wątki do zarządzania konkurencją między procesami.
 
-W tym projekcie stworzymy system symulujący funkcjonowanie pizzerii, w której zarządzanie stolikami, klientami oraz kasą jest kluczowe do uzyskania optymalnego zysku i sprawnego działania lokalu. System będzie obejmował obsługę stolików, przyjmowanie zamówień, zarządzanie klientami (indywidualnymi oraz grupami) oraz reagowanie na sygnał o pożarze, który wymusi natychmiastowe opuszczenie lokalu.
+---
 
-## 2. Kluczowe założenia
+## Struktura projektu
 
-- Pizzeria posiada stoliki o różnych rozmiarach: 1-osobowe, 2-osobowe, 3-osobowe oraz 4-osobowe. Liczba każdego typu stolików to X1, X2, X3, X4.
-- Klienci mogą przychodzić indywidualnie lub w grupach (2-osobowe, 3-osobowe).
-- Każda grupa, która przychodzi, musi usiąść przy wolnym stoliku. Jeśli stolik jest zajęty, klient musi poczekać na zwolnienie miejsca, ale nie wolno czekać z gorącą pizzą.
-- Różne grupy klientów nie mogą dzielić stolika, chyba że są równoliczne (np. dwie grupy 2-osobowe mogą usiąść przy stoliku 4-osobowym).
-- Po sygnale o pożarze klienci muszą natychmiast opuścić pizzerię, a kasa zostaje zamknięta.
+### Pliki źródłowe
+- **main.c**
+  - Zarządza główną pętlą programu.
+  - Inicjalizuje zasoby i wątki.
+  - Obsługuje sygnały.
 
-## 3. Model Obiektów
+- **cashier.c**
+  - Odpowiada za obsługę zamówień przez kasjera.
+  - Aktualizuje status stolików i dochód.
 
-### 3.1. Klient
-- **Atrybuty**:
-  - `id`: ID klienta
-  - `liczba_osob_w_grupie`: liczba osób w grupie
-  - `status_zamowienia`: status zamówienia (oczekuje, zjedzono)
-- **Metody**:
-  - `złożyć_zamówienie()`: klient składa zamówienie
-  - `otrzymać_pizzę()`: klient otrzymuje pizzę
-  - `opóścić_pizzerię()`: klient opuszcza pizzerię po pożarze
+- **client.c**
+  - Symuluje klientów wchodzących do pizzerii.
+  - Tworzy procesy dla klientów, którzy zajmują stoliki i składają zamówienia.
 
-### 3.2. Stolik
-- **Atrybuty**:
-  - `numer_stolika`: numer stolika
-  - `pojemnosc`: liczba osób, dla których stolik jest przeznaczony
-  - `status`: status stolika (wolny, zajęty)
-- **Metody**:
-  - `zajmij_stolik(grupa)`: przypisuje stolik grupie
-  - `zwolnij_stolik()`: zwalnia stolik po zakończeniu posiłku
+- **firefighter.c**
+  - Obsługuje sygnał pożaru (SIGUSR1).
+  - Zamyka lokal w przypadku sytuacji awaryjnej.
 
-### 3.3. Pizzeria
-- **Atrybuty**:
-  - `stoliki`: lista stolików o różnych pojemnościach (1, 2, 3, 4-osobowe)
-  - `kasa`: stan kasy (otwarta, zamknięta)
-- **Metody**:
-  - `przyjmij_zamówienie(grupa)`: przyjmuje zamówienie od grupy klientów
-  - `przydziel_stolik(grupa)`: przypisuje grupie odpowiedni stolik
-  - `reaguj_na_pozar()`: reaguje na sygnał o pożarze
+- **utilities.c / utilities.h**
+  - Zawiera funkcje pomocnicze, takie jak logowanie, zarządzanie interfejsem, obsługa semaforów i pamięci współdzielonej.
 
-### 3.4. Strażak
-- **Atrybuty**:
-  - `id`: ID strażaka
-- **Metody**:
-  - `wyślij_sygnal_o_pozarze()`: wysyła sygnał o pożarze
+---
 
-### 3.5. Kasjer
-- **Atrybuty**:
-  - `stolik_zajety`: stolik, który jest obecnie zajęty
-  - `kasa_otwarta`: stan kasy (czy jest otwarta)
-- **Metody**:
-  - `zamknij_kase()`: zamyka kasę po sygnale o pożarze
-  - `zlicz_zyski()`: nalicza zarobki na podstawie zamówień
+## Funkcjonalności
+1. **Logowanie zdarzeń:**
+   - Wszystkie kluczowe zdarzenia są rejestrowane w pliku `debug.log` oraz wyświetlane w konsoli.
+2. **Interfejs użytkownika:**
+   - Wyświetla status stolików, zamówienia i logi w przejrzysty sposób z użyciem kolorów.
+3. **Obsługa sygnałów:**
+   - SIGUSR1 - sygnał pożaru, powodujący natychmiastowe zamknięcie lokalu.
+   - SIGINT - sygnał zamknięcia programu.
+4. **Synchronizacja:**
+   - Wykorzystuje semafory do zarządzania dostępem do pamięci współdzielonej.
+5. **Komunikacja między procesami:**
+   - Kolejki komunikatów do przesyłania zamówień i logów.
 
-## 4. Opis Funkcjonowania
+---
 
-### 4.1. Zarządzanie stolikami
-Pizzeria posiada stoliki o różnych rozmiarach. Klienci mogą przyjść indywidualnie lub w grupach. Pizzeria dba o to, aby klientom przypisane były odpowiednie stoliki.
+## Wymagania techniczne
+- **System operacyjny:** Linux (wymagany do obsługi funkcji IPC).
+- **Kompilator:** GCC (z obsługą `-pthread`).
+- **Biblioteki:**
+  - `pthread`
+  - `sys/ipc.h`
+  - `sys/msg.h`
+  - `sys/sem.h`
+  - `sys/shm.h`
 
-- Klient o liczbie osób 2 może zająć stolik 2-osobowy lub stolik 4-osobowy (jeśli jest wolny).
-- Zajęcie stolika następuje po dokonaniu zamówienia.
+---
 
-### 4.2. Zarządzanie zamówieniami
-Klienci składają zamówienia, a po otrzymaniu pizzy mogą usiąść przy stoliku. Ważne jest, aby nie czekali z gorącą pizzą na miejsce – zamówienie musi być skojarzone z dostępnością stolika.
+## Kompilacja i uruchomienie
 
-### 4.3. Pożar
-Po sygnale o pożarze wszyscy klienci muszą natychmiast opuścić lokal. Po ich wyjściu kasa jest zamknięta.
+### Kompilacja
+Użyj poniższego polecenia, aby skompilować projekt:
+```bash
+gcc -Wall -pthread main.c cashier.c client.c firefighter.c utilities.c -o pizzeria
+```
 
-### 4.4. Zyski i zamknięcie kasy
-Po każdym zamówieniu kasjer dodaje zarobki do ogólnej puli. Po sygnale o pożarze kasa jest zamknięta.
+### Uruchomienie
+Aby uruchomić program, użyj:
+```bash
+./pizzeria [X1] [X2] [X3] [X4]
+```
+- X1, X2, X3, X4 - liczba stolików 1-, 2-, 3- i 4-osobowych.
+- Przykład:
+  ```bash
+  ./pizzeria 2 2 2 2
+  ```
 
-## 5. Testy
+---
 
-### 5.1. Testowanie zamówienia
-- Czy klient może złożyć zamówienie tylko wtedy, gdy stolik jest dostępny?
-- Czy zamówienie zostaje przydzielone po zwolnieniu stolika?
+## Obsługa programu
+1. **Interfejs użytkownika:**
+   - Sekcje:
+     - [STOLIKI] - pokazuje status stolików.
+     - [DOCHÓD] - wyświetla łączny dochód.
+     - [LOGI] - loguje wszystkie zdarzenia.
+2. **Zamykanie programu:**
+   - Naciśnij `Ctrl+C`, aby zamknąć program.
+   - Możesz wysłać sygnał `SIGUSR1`, aby zasymulować pożar:
+     ```bash
+     kill -USR1 <PID>
+     ```
 
-### 5.2. Testowanie pożaru
-- Czy po sygnale o pożarze klienci natychmiast opuszczają pizzerię?
-- Czy kasa jest zamknięta po sygnale o pożarze?
+---
 
-### 5.3. Testowanie zysków
-- Czy kasjer poprawnie nalicza zyski po każdym zamówieniu?
+## Struktury danych
+- **`Table`** - przechowuje informacje o stolikach.
+- **`order_message`** - struktura zamówienia przesyłanego przez kolejkę komunikatów.
+- **`log_message`** - struktura do logowania zdarzeń.
 
-### 5.4. Testowanie konkurencyjności grup
-- Czy różne grupy klientów (np. 2-osobowe, 3-osobowe) nie siadają przy tym samym stoliku, chyba że są równoliczne?
+---
 
-## 6. Podsumowanie
+## Informacje dodatkowe
+- Plik `debug.log` przechowuje logi działania programu.
+- Program automatycznie usuwa wszystkie zasoby IPC po zakończeniu pracy.
 
-Projekt "Pizzeria" ma na celu stworzenie systemu do zarządzania klientami, stolikami i zamówieniami w pizzerii, z uwzględnieniem ważnych aspektów takich jak reagowanie na pożar, przypisywanie odpowiednich stolików do grup klientów oraz zamykanie kasy po zdarzeniu awaryjnym.
+---
+
+## Autor
+Project power by Oskar Świątek.
+
