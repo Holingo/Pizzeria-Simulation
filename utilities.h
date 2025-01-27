@@ -22,6 +22,7 @@
 #define MSG_KEY 9101
 
 // Stałe
+#define CLIENTS 5
 #define MAX_LOGS 200
 #define MAX_TABLES 20
 #define MENU_FILE "menu.txt"

@@ -45,17 +45,31 @@ void *client_spawner(void *arg) {
     return NULL;
 }
 
+void handle_client_signal(int sig) {
+    if (sig == SIGUSR1) {
+        is_open = 0; // Oznacza zamknięcie lokalu
+    }
+}
+
 void simulate_client(int group_id, int group_size) {
-    setbuf(stdout, NULL);
-    setbuf(stderr, NULL);
+    // Rejestracja obsługi sygnału dla klienta
+    signal(SIGUSR1, handle_client_signal);
 
     struct log_message log;
     log.msg_type = 1;
-    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
-    if (msgsnd(msg_id, &log, sizeof(log.content), 0) == -1) {
-        perror("[Klient] Nie udało się wysłać wiadomości do logów");
+
+    // Na początku sprawdź, czy lokal jest otwarty
+    if (!is_open) {
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Lokal zamknięty. Odrzucono wejście.", group_id);
+        msgsnd(msg_id, &log, sizeof(log.content), 0);
+        exit(EXIT_SUCCESS);
     }
 
+    // Logowanie rozpoczęcia symulacji
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
+
+    // Dołączanie do pamięci współdzielonej
     Table *tables = shmat(shm_id, NULL, 0);
     if (tables == (void *)-1) {
         snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Błąd dołączania do pamięci współdzielonej", group_id);
@@ -63,9 +77,11 @@ void simulate_client(int group_id, int group_size) {
         exit(EXIT_FAILURE);
     }
 
+    // Szukanie wolnego stolika
     int table_id = -1;
     sem_lock(sem_id);
     for (int i = 0; i < MAX_TABLES; i++) {
+        if (!is_open) break; // Jeśli lokal został zamknięty w trakcie
         if (tables[i].capacity >= group_size && tables[i].occupied == 0) {
             tables[i].occupied = group_size;
             table_id = i;
@@ -75,16 +91,18 @@ void simulate_client(int group_id, int group_size) {
     }
     sem_unlock(sem_id);
 
-    if (table_id == -1) {
-        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie może wejść. Brak wolnych miejsc.", group_id);
+    if (table_id == -1 || !is_open) {
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie może wejść. Brak wolnych miejsc lub lokal zamknięty.", group_id);
         msgsnd(msg_id, &log, sizeof(log.content), 0);
         shmdt(tables);
-        exit(EXIT_FAILURE);
+        exit(EXIT_SUCCESS);
     }
 
+    // Logowanie zajęcia stolika
     snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Zajął stolik %d", group_id, table_id + 1);
     msgsnd(msg_id, &log, sizeof(log.content), 0);
 
+    // Składanie zamówienia
     FILE *menu = fopen(MENU_FILE, "r");
     if (!menu) {
         snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie udało się otworzyć menu", group_id);
@@ -122,8 +140,17 @@ void simulate_client(int group_id, int group_size) {
     snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Zamówił %s (%.2f PLN)", group_id, items[choice], prices[choice]);
     msgsnd(msg_id, &log, sizeof(log.content), 0);
 
-    sleep(3);
+    // Symulacja jedzenia z ciągłą kontrolą zamknięcia lokalu
+    for (int i = 0; i < 3; i++) {
+        if (!is_open) {
+            snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Otrzymano sygnał zamknięcia lokalu. Opuszczam stolik.", group_id);
+            msgsnd(msg_id, &log, sizeof(log.content), 0);
+            break;
+        }
+        sleep(1); // Symulacja jedzenia (3 sekundy)
+    }
 
+    // Opuszczanie stolika
     sem_lock(sem_id);
     tables[table_id].occupied = 0;
     snprintf(tables[table_id].order_status, sizeof(tables[table_id].order_status), "Wolny (0/%d)", tables[table_id].capacity);

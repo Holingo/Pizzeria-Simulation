@@ -71,14 +71,15 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    int num_clients = 10;
+    int num_clients = 5;
     if (pthread_create(&client_spawner_tid, NULL, client_spawner, &num_clients) != 0) {
         perror("Nie udało się utworzyć wątku klientów");
         cleanup_resources();
         exit(EXIT_FAILURE);
     }
 
-    while (is_open) {
+    while (1) {
+        // Oczekiwanie na zakończenie procesów klientów
         while (waitpid(-1, NULL, WNOHANG) > 0);
 
         Table *tables = shmat(shm_id, NULL, 0);
@@ -87,10 +88,28 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        display_interface(tables, X1 + X2 + X3 + X4);
+        display_interface(tables, X1 + X2 + X3 + X4); // Odświeżanie interfejsu
+
+        // Jeśli lokal jest zamknięty, sprawdź, czy wszystkie stoliki są puste
+        if (!is_open) {
+            int all_tables_empty = 1;
+            for (int i = 0; i < X1 + X2 + X3 + X4; i++) {
+                if (tables[i].occupied > 0) {
+                    all_tables_empty = 0;
+                    break;
+                }
+            }
+
+            // Jeśli wszystkie stoliki są puste, zakończ pracę kasjera i wyjdź z pętli
+            if (all_tables_empty) {
+                log_event("[Główna pętla] Wszystkie stoliki są puste. Lokal zamknięty.");
+                shmdt(tables);
+                break;
+            }
+        }
 
         shmdt(tables);
-        usleep(500000);
+        usleep(500000); // Odświeżanie co 0.5 sekundy
     }
 
     pthread_join(cashier_tid, NULL);

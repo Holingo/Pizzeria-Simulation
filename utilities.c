@@ -72,6 +72,8 @@ void display_interface(Table *tables, int table_count) {
             color = CYAN; // Logi klientów w kolorze CYAN
         } else if (strstr(log_messages[i].content, "[Kasjer")) {
             color = GREEN; // Logi kasjera w kolorze GREEN
+        } else if (strstr(log_messages[i].content, "[Strażak")) {
+            color = RED_BG; // Logi alertów w kolorze tła RED_BG
         } else if (strstr(log_messages[i].content, "ALERT")) {
             color = RED_BG; // Logi alertów w kolorze tła RED_BG
         }
