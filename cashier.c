@@ -12,6 +12,7 @@ void *cashier_behavior(void *arg) {
     while (is_open) {
         struct order_message msg;
 
+        // Funkcja służy do odbierania wiadomości z kolejki komunikatów w systemie IPC (Inter Process Communication).
         if (msgrcv(msg_id, &msg, sizeof(msg) - sizeof(long), 1, 0) != -1) {
             char log_message[200];
             snprintf(log_message, sizeof(log_message), "[Kasjer] Realizacja zamówienia dla stolika %d. Zamówiono: %s (%.2f PLN)",

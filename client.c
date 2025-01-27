@@ -24,10 +24,11 @@ void *client_spawner(void *arg) {
         snprintf(log_message, sizeof(log_message), "[Spawner] Tworzenie klienta %d...", i + 1);
         log_event(log_message);
 
+        // Tworzy proces potomny dla każdego klienta.
         pid_t pid = fork();
         if (pid == 0) {
-            pthread_mutex_destroy(&screen_mutex);
-            pthread_mutex_init(&screen_mutex, NULL);
+            pthread_mutex_destroy(&screen_mutex); // Usuwa istniejący mutex, aby upewnić się, że nie ma konfliktów w synchronizacji.
+            pthread_mutex_init(&screen_mutex, NULL); // Następnie ponownie inicjalizuje mutex z domyślnymi atrybutami.
 
             srand(time(NULL) ^ getpid());
             int group_size = (rand() % 3) + 1;

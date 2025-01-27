@@ -13,6 +13,9 @@
 
 // Zmienne globalne
 int is_open = 1;
+// shm_id - Identyfikator pamięci współdzielonej, przechowuje dane o stolikach i zamówieniach.
+// sem_id - Identyfikator semafora, zapewnia synchronizację między procesami, np. blokuje jednoczesny dostęp do danych.
+// msg_id - Identyfikator kolejki komunikatów, umożliwia przesyłanie informacji między procesami (np. zamówienia od klientów do kasjera).
 int shm_id, sem_id, msg_id;
 pthread_t cashier_tid, firefighter_tid, client_spawner_tid, log_listener_tid;
 
@@ -21,6 +24,7 @@ void initialize_resources(int X1, int X2, int X3, int X4);
 void cleanup_resources();
 void handle_signal(int sig);
 
+// Dodaje wiadomość do bufora logów i zapisuje do pliku
 void *log_listener(void *arg) {
     struct log_message log;
 
@@ -47,9 +51,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Ignorowanie procesów zombie
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGUSR1, handle_signal);
-    signal(SIGINT, handle_signal);
+    signal(SIGCHLD, SIG_IGN); // Ignoruje sygnał SIGCHLD, aby uniknąć tworzenia procesów zombie po zakończeniu procesów potomnych.
+    signal(SIGUSR1, handle_signal); // Ustawia obsługę sygnału SIGUSR1 na funkcję handle_signal.
+    signal(SIGINT, handle_signal); // Ustawia obsługę sygnału SIGINT (Ctrl+C) na funkcję handle_signal.
 
     initialize_resources(X1, X2, X3, X4);
 
@@ -80,8 +84,9 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         // Oczekiwanie na zakończenie procesów klientów
-        while (waitpid(-1, NULL, WNOHANG) > 0);
+        //while (waitpid(-1, NULL, WNOHANG) > 0);
 
+        // Dołącza segment pamięci współdzielonej (o identyfikatorze shm_id) do przestrzeni adresowej procesu.
         Table *tables = shmat(shm_id, NULL, 0);
         if (tables == (void *)-1) {
             perror("Błąd dołączania pamięci współdzielonej");
@@ -108,10 +113,11 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        shmdt(tables);
+        shmdt(tables); // Po odłączeniu program nie ma już dostępu do tej pamięci przez wskaźnik tables.
         usleep(500000); // Odświeżanie co 0.5 sekundy
     }
 
+// Czeka na zakończenie wątku.
     pthread_join(cashier_tid, NULL);
     pthread_join(firefighter_tid, NULL);
     pthread_join(client_spawner_tid, NULL);
@@ -123,6 +129,7 @@ int main(int argc, char *argv[]) {
 }
 
 void initialize_resources(int X1, int X2, int X3, int X4) {
+    // Tworzy segment pamięci współdzielonej, w którym przechowywane są dane o stolikach.
     shm_id = shmget(SHM_KEY, sizeof(Table) * (X1 + X2 + X3 + X4), IPC_CREAT | 0666);
     if (shm_id == -1) {
         perror("Błąd tworzenia pamięci współdzielonej");
@@ -177,9 +184,9 @@ void initialize_resources(int X1, int X2, int X3, int X4) {
 }
 
 void cleanup_resources() {
-    shmctl(shm_id, IPC_RMID, NULL);
-    semctl(sem_id, 0, IPC_RMID);
-    msgctl(msg_id, IPC_RMID, NULL);
+    shmctl(shm_id, IPC_RMID, NULL); // Usuwa segment pamięci współdzielonej.
+    semctl(sem_id, 0, IPC_RMID);    // Usuwa semafor.
+    msgctl(msg_id, IPC_RMID, NULL); // Usuwa kolejkę komunikatów.
     cleanup_console();
 }
 

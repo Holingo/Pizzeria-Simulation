@@ -25,11 +25,17 @@ struct log_message log_messages[MAX_LOGS];
 #define WHITE "\033[37m"
 #define RED_BG "\033[41m"
 
+// Funkcja log_event zapisuje wiadomość do pamięci (bufor logów) i jednocześnie do pliku logów,
+// zapewniając synchronizację dostępu za pomocą mutexa.
+// Dzięki temu wiele wątków może bezpiecznie korzystać z tej funkcji.
 void log_event(const char *message) {
-    pthread_mutex_lock(&screen_mutex);
+    pthread_mutex_lock(&screen_mutex); // Funkcja blokuje dostęp do sekcji krytycznej chronionej przez mutex
+
+    // Dodawanie wiadomości do bufora logów.
     if (log_count < MAX_LOGS) {
         snprintf(log_messages[log_count++].content, sizeof(log_messages[0].content), "%s", message);
     } else {
+        // Jeśli bufor jest pełny, usuwa najstarszy log i przesuwa pozostałe.
         for (int i = 1; i < MAX_LOGS; i++) {
             log_messages[i - 1] = log_messages[i];
         }
@@ -42,7 +48,7 @@ void log_event(const char *message) {
         fclose(log_file);
     }
 
-    pthread_mutex_unlock(&screen_mutex);
+    pthread_mutex_unlock(&screen_mutex); // Odblokowanie mutexa, aby inne wątki mogły korzystać z tej funkcji.
 }
 
 void display_interface(Table *tables, int table_count) {
@@ -110,6 +116,7 @@ void cleanup_console() {
     printf("Zamknięcie pizzerii. Dziękujemy!\n");
 }
 
+// Blokuje dostęp do pamięci współdzielonej, aby zapobiec konfliktom między procesami.
 void sem_lock(int sem_id) {
     struct sembuf op = {0, -1, 0};
     if (semop(sem_id, &op, 1) == -1) {
