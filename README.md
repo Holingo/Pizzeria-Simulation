@@ -126,88 +126,34 @@ Aby uruchomić program, użyj:
 
 ## Struktury danych
 - **`Table`** - przechowuje informacje o stolikach.
-(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L53-L58)
+https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L53-L58
 
 - **`order_message`** - struktura zamówienia przesyłanego przez kolejkę komunikatów.
-(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L30-L37)
+https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L30-L37
 
 - **`log_message`** - struktura do logowania zdarzeń.
-(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L39-L42)
+https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L39-L42
 
 ---
 
 ## Linki do istotnych fragmentów kodu
 1. **Tworzenie procesów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)[`fork()`](#)[ w ](#)[`client.c`](#)
-(https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27)
+https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L27
 
 2. **Tworzenie wątków:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79)[`pthread_create()`](#)[ w ](#)[`main.c`](#)
-```c
-    if (pthread_create(&log_listener_tid, NULL, log_listener, NULL) != 0) {
-        perror("Nie udało się utworzyć wątku nasłuchującego logi");
-        cleanup_resources();
-        exit(EXIT_FAILURE);
-    }
+https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L56-L79
 
-
-    if (pthread_create(&cashier_tid, NULL, cashier_behavior, NULL) != 0) {
-        perror("Nie udało się utworzyć wątku kasjera");
-        cleanup_resources();
-        exit(EXIT_FAILURE);
-    }
-
-
-    if (pthread_create(&firefighter_tid, NULL, firefighter_behavior, NULL) != 0) {
-        perror("Nie udało się utworzyć wątku strażaka");
-        cleanup_resources();
-        exit(EXIT_FAILURE);
-    }
-
-
-    int num_clients = 5;
-    if (pthread_create(&client_spawner_tid, NULL, client_spawner, &num_clients) != 0) {
-        perror("Nie udało się utworzyć wątku klientów");
-        cleanup_resources();
-        exit(EXIT_FAILURE);
-    }
-```
 3. **Obsługa sygnałów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/firefighter.c#L20-L25)[`signal()`](#)[ w ](#)[`firefighter.c`](#)
-```c
-    struct sigaction sa;
-    sa.sa_handler = handle_fire_signal;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
+https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/firefighter.c#L20-L25
 
-    if (sigaction(SIGUSR1, &sa, NULL) == -1) {
-```
 4. **Synchronizacja semaforów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/utilities.c#L113-L127)[`semop()`](#)[ w ](#)[`utilities.c`](#)
-```c
-void sem_lock(int sem_id) {
-    struct sembuf op = {0, -1, 0};
-    if (semop(sem_id, &op, 1) == -1) {
-        perror("Semafor: błąd blokowania");
-        exit(EXIT_FAILURE);
-    }
-}
+https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/utilities.c#L113-L127
 
-
-void sem_unlock(int sem_id) {
-    struct sembuf op = {0, 1, 0};
-    if (semop(sem_id, &op, 1) == -1) {
-        perror("Semafor: błąd odblokowywania");
-        exit(EXIT_FAILURE);
-    }
-}
-```
 5. **Pamięć współdzielona:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126)[`shmget()`](#)[ w ](#)[`main.c`](#)
-```c
-    shm_id = shmget(SHM_KEY, sizeof(Table) * (X1 + X2 + X3 + X4), IPC_CREAT | 0666);
-```
+https://github.com/Holingo/Pizzeria-Simulation/blob/62f5e4b67b6a51fd38400a6715c707cc6a8def30/main.c#L126
+
 6. **Kolejki komunikatów:** [Link do kodu ](https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70)[`msgsnd()`](#)[ w ](#)[`client.c`](#)
-```c
-    // Logowanie rozpoczęcia symulacji
-    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
-    msgsnd(msg_id, &log, sizeof(log.content), 0);
-```
+https://github.com/Holingo/Pizzeria-Simulation/blob/8baf40f4b5225a00f75f2fed852f2c1657d43369/client.c#L68-L70
 
 ---
 
