@@ -12,13 +12,27 @@
 // Globalne zmienne
 int is_open = 1;
 int shm_id, sem_id, msg_id;
-pthread_t cashier_tid, firefighter_tid, client_spawner_tid;
+pthread_t cashier_tid, firefighter_tid, client_spawner_tid, log_listener_tid;
+
 int next_group_id = 1; // Zmienna do nadawania unikalnych ID grup
 
 // Deklaracje funkcji
 void initialize_resources(int X1, int X2, int X3, int X4);
 void cleanup_resources();
 void handle_signal(int sig);
+
+void *log_listener(void *arg) {
+    struct log_message log;
+
+    while (is_open) {
+        if (msgrcv(msg_id, &log, sizeof(log.content), 1, IPC_NOWAIT) != -1) {
+            log_event(log.content); // Dodawanie logu do bufora i pliku
+        }
+        usleep(100000); // Odświeżanie co 0.1 sekundy
+    }
+
+    return NULL;
+}
 
 int main(int argc, char *argv[]) {
     int X1 = 1, X2 = 1, X3 = 1, X4 = 1; // Domyslne wartosci stolikow
@@ -38,7 +52,12 @@ int main(int argc, char *argv[]) {
 
     initialize_resources(X1, X2, X3, X4);
 
-    // Uruchamianie kasjera i strażaka
+    if (pthread_create(&log_listener_tid, NULL, log_listener, NULL) != 0) {
+        perror("Failed to create cashier thread");
+        cleanup_resources();
+        exit(EXIT_FAILURE);
+    }
+
     if (pthread_create(&cashier_tid, NULL, cashier_behavior, NULL) != 0) {
         perror("Failed to create cashier thread");
         cleanup_resources();
@@ -52,7 +71,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Uruchamianie generowania klientów w tle
-    int num_clients = 3;
+    int num_clients = 10;
     if (pthread_create(&client_spawner_tid, NULL, client_spawner, &num_clients) != 0) {
         perror("Failed to create client spawner thread");
         cleanup_resources();
@@ -77,6 +96,7 @@ int main(int argc, char *argv[]) {
     pthread_join(cashier_tid, NULL);
     pthread_join(firefighter_tid, NULL);
     pthread_join(client_spawner_tid, NULL);
+    pthread_join(log_listener_tid, NULL);
 
     cleanup_resources();
     printf("Pizzeria closed successfully.\n");

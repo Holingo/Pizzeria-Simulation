@@ -18,7 +18,7 @@
 #define SEM_KEY 5678
 #define MSG_KEY 9101
 
-#define MAX_LOGS 100
+#define MAX_LOGS 200
 #define MAX_TABLES 4
 #define MENU_FILE "menu.txt"
 
@@ -31,15 +31,15 @@ struct order_message {
 };
 
 struct log_message {
-    long msg_type; // Typ wiadomości (ustaw na 1)
-    char content[200];
+    long msg_type; // Typ wiadomości
+    char content[200]; // Treść loga
 };
 
 // Globalne zmienne logowania
 extern pthread_mutex_t screen_mutex;
 extern float total_revenue;
 extern int log_count;
-extern char log_messages[MAX_LOGS][200];
+extern struct log_message log_messages[MAX_LOGS];
 
 // Globalne zmienne IPC
 extern int is_open;
@@ -55,7 +55,7 @@ typedef struct {
 // Deklaracja funkcji logowania
 void log_event(const char *message);
 void display_interface(Table *tables, int table_count);
-void update_table_status(int table_index, int occupied, int capacity, const char *status);
+void update_table_status(int table_index, const char *status);
 void update_revenue(float amount);
 void init_console();
 void cleanup_console();

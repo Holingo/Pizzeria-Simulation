@@ -1,11 +1,19 @@
-// Updated utilities.c with console output using printf and ANSI colors
+// Updated utilities.c to retain historical logs in console
 #include "utilities.h"
 #include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <pthread.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdlib.h>
 
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 float total_revenue = 0;
+
+// Global log buffer
+struct log_message log_messages[MAX_LOGS];
 int log_count = 0;
-char log_messages[MAX_LOGS][200];
 
 // ANSI Color Codes
 #define RESET "\033[0m"
@@ -20,15 +28,25 @@ char log_messages[MAX_LOGS][200];
 void log_event(const char *message) {
     pthread_mutex_lock(&screen_mutex);
 
-    // Dodawanie logu do tablicy
+    // Dodawanie wiadomości do bufora logów
     if (log_count < MAX_LOGS) {
-        snprintf(log_messages[log_count], sizeof(log_messages[log_count]), "%s", message);
+        snprintf(log_messages[log_count].content, sizeof(log_messages[log_count].content), "%s", message);
+        log_messages[log_count].msg_type = 1; // Typ logu
         log_count++;
     } else {
+        // Przesuwanie bufora logów w górę
         for (int i = 1; i < MAX_LOGS; i++) {
-            strncpy(log_messages[i - 1], log_messages[i], sizeof(log_messages[i - 1]));
+            log_messages[i - 1] = log_messages[i];
         }
-        snprintf(log_messages[MAX_LOGS - 1], sizeof(log_messages[MAX_LOGS - 1]), "%s", message);
+        snprintf(log_messages[MAX_LOGS - 1].content, sizeof(log_messages[MAX_LOGS - 1].content), "%s", message);
+        log_messages[MAX_LOGS - 1].msg_type = 1;
+    }
+
+    // Zapis do pliku logów
+    FILE *log_file = fopen("debug.log", "a");
+    if (log_file) {
+        fprintf(log_file, "%s\n", message);
+        fclose(log_file);
     }
 
     pthread_mutex_unlock(&screen_mutex);
@@ -36,14 +54,17 @@ void log_event(const char *message) {
 
 void display_interface(Table *tables, int table_count) {
     pthread_mutex_lock(&screen_mutex);
-    system("clear"); // Czyszczenie konsoli
 
-    // Naglowek
+    // Clear the screen
+    system("clear"); // Czyszczenie konsoli
+    printf("\033[H\033[J");
+
+    // Header
     printf("============================================================\n");
     printf("                     %sPIZZERIA%s\n", CYAN, RESET);
     printf("============================================================\n\n");
 
-    // Stoliki
+    // Tables
     printf("%s[STOLIKI]%s\n", CYAN, RESET);
     printf("------------------------------------------------------------\n");
     for (int i = 0; i < table_count; i++) {
@@ -55,27 +76,34 @@ void display_interface(Table *tables, int table_count) {
                tables[i].order_status[0] ? tables[i].order_status : "Brak", RESET);
     }
 
-    // Dochod
+    // Revenue
     printf("\n%s[DOCHOD]%s\n", CYAN, RESET);
     printf("------------------------------------------------------------\n");
     printf("Laczny dochod: %s%.2f PLN%s\n\n", YELLOW, total_revenue, RESET);
 
-    // Logi
+    // Logs
     printf("%s[LOGI]%s\n", CYAN, RESET);
     printf("------------------------------------------------------------\n");
     for (int i = 0; i < log_count; i++) {
-        printf("%s%s%s\n", strstr(log_messages[i], "ALERT") ? RED_BG : WHITE, log_messages[i], RESET);
+        const char *color = WHITE; // Default color
+        if (strstr(log_messages[i].content, "[Klient")) {
+            color = CYAN; // Klient in CYAN
+        } else if (strstr(log_messages[i].content, "[Kasjer")) {
+            color = GREEN; // Kasjer in GREEN
+        } else if (strstr(log_messages[i].content, "ALERT")) {
+            color = RED_BG; // Alert in RED_BG
+        }
+        printf("%s%s%s\n", color, log_messages[i].content, RESET);
     }
 
     printf("============================================================\n");
     pthread_mutex_unlock(&screen_mutex);
 }
 
-void update_table_status(int table_index, int occupied, int capacity, const char *status) {
-    pthread_mutex_lock(&screen_mutex);
-    snprintf(log_messages[log_count], sizeof(log_messages[log_count]), "[STOLIK %d] Status: %s", table_index + 1, status);
-    log_count = (log_count + 1) % MAX_LOGS;
-    pthread_mutex_unlock(&screen_mutex);
+void update_table_status(int table_index, const char *status) {
+    char message[200];
+    snprintf(message, sizeof(message), "[STOLIK %d] Status: %s", table_index + 1, status);
+    log_event(message);
 }
 
 void update_revenue(float amount) {
@@ -86,7 +114,17 @@ void update_revenue(float amount) {
 
 void init_console() {
     printf("Pizzeria uruchomiona!\n");
+
+    // Initialize debug.log file
+    FILE *debug_log = fopen("debug.log", "w");
+    if (debug_log) {
+        fprintf(debug_log, "Logi z uruchomienia pizzerii\n");
+        fclose(debug_log);
+    } else {
+        perror("[Init] Nie można utworzyć pliku debug.log");
+    }
 }
+
 
 void cleanup_console() {
     printf("Zamkniecie pizzerii. Dziekujemy!\n");

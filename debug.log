@@ -1,0 +1,89 @@
+Logi z uruchomienia pizzerii
+Pizzeria opened successfully.
+[Kasjer] Rozpoczynam prace
+[Spawner] Rozpoczęcie generowania 10 klientów...
+[Spawner] Tworzenie klienta 1...
+[Klient ID:1] Rozpoczyna symulację (grupa 2 osób)
+[Klient ID:1] Zajął stolik 2
+[Kasjer] Realizacja zamowienia dla stolika 2. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 2] Status: Realizacja w toku
+[Klient ID:1] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 2...
+[Klient ID:2] Rozpoczyna symulację (grupa 1 osób)
+[Klient ID:2] Zajął stolik 1
+[Kasjer] Zamowienie dla stolika 2 zostalo zrealizowane (25.00 PLN)
+[STOLIK 2] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 1. Zamowiono: Pepperoni (30.00 PLN)
+[STOLIK 1] Status: Realizacja w toku
+[Klient ID:2] Zamówił Pepperoni (30.00 PLN)
+[Spawner] Tworzenie klienta 3...
+[Klient ID:3] Rozpoczyna symulację (grupa 1 osób)
+[Klient ID:3] Zajął stolik 3
+[Kasjer] Zamowienie dla stolika 1 zostalo zrealizowane (30.00 PLN)
+[STOLIK 1] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 3. Zamowiono: Pepperoni (30.00 PLN)
+[STOLIK 3] Status: Realizacja w toku
+[Klient ID:3] Zamówił Pepperoni (30.00 PLN)
+[Spawner] Tworzenie klienta 4...
+[Klient ID:1] Opuszcza stolik 2
+[Klient ID:4] Rozpoczyna symulację (grupa 2 osób)
+[Kasjer] Zamowienie dla stolika 3 zostalo zrealizowane (30.00 PLN)
+[STOLIK 3] Status: Zrealizowane
+[Klient ID:4] Zajął stolik 2
+[Kasjer] Realizacja zamowienia dla stolika 2. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 2] Status: Realizacja w toku
+[Klient ID:4] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 5...
+[Klient ID:2] Opuszcza stolik 1
+[Klient ID:5] Rozpoczyna symulację (grupa 1 osób)
+[Klient ID:5] Zajął stolik 1
+[Kasjer] Zamowienie dla stolika 2 zostalo zrealizowane (25.00 PLN)
+[STOLIK 2] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 1. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 1] Status: Realizacja w toku
+[Klient ID:5] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 6...
+[Klient ID:3] Opuszcza stolik 3
+[Klient ID:6] Rozpoczyna symulację (grupa 1 osób)
+[Klient ID:6] Zajął stolik 3
+[Kasjer] Zamowienie dla stolika 1 zostalo zrealizowane (25.00 PLN)
+[STOLIK 1] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 3. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 3] Status: Realizacja w toku
+[Klient ID:6] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 7...
+[Klient ID:4] Opuszcza stolik 2
+[Klient ID:7] Rozpoczyna symulację (grupa 3 osób)
+[Klient ID:7] Zajął stolik 4
+[Kasjer] Zamowienie dla stolika 3 zostalo zrealizowane (25.00 PLN)
+[STOLIK 3] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 4. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 4] Status: Realizacja w toku
+[Klient ID:7] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 8...
+[Klient ID:5] Opuszcza stolik 1
+[Klient ID:8] Rozpoczyna symulację (grupa 3 osób)
+[Klient ID:8] Nie może wejść. Brak wolnych miejsc.
+[Kasjer] Zamowienie dla stolika 4 zostalo zrealizowane (25.00 PLN)
+[STOLIK 4] Status: Zrealizowane
+[Spawner] Tworzenie klienta 9...
+[Klient ID:6] Opuszcza stolik 3
+[Klient ID:9] Rozpoczyna symulację (grupa 1 osób)
+[Klient ID:9] Zajął stolik 1
+[Kasjer] Realizacja zamowienia dla stolika 1. Zamowiono: Margherita (25.00 PLN)
+[STOLIK 1] Status: Realizacja w toku
+[Klient ID:9] Zamówił Margherita (25.00 PLN)
+[Spawner] Tworzenie klienta 10...
+[Klient ID:7] Opuszcza stolik 4
+[Klient ID:10] Rozpoczyna symulację (grupa 3 osób)
+[Klient ID:10] Zajął stolik 3
+[Kasjer] Zamowienie dla stolika 1 zostalo zrealizowane (25.00 PLN)
+[STOLIK 1] Status: Zrealizowane
+[Kasjer] Realizacja zamowienia dla stolika 3. Zamowiono: Hawajska (27.00 PLN)
+[STOLIK 3] Status: Realizacja w toku
+[Klient ID:10] Zamówił Hawajska (27.00 PLN)
+[Spawner] Zakończono generowanie klientów.
+[Kasjer] Zamowienie dla stolika 3 zostalo zrealizowane (27.00 PLN)
+[STOLIK 3] Status: Zrealizowane
+[Klient ID:9] Opuszcza stolik 1
+[Klient ID:10] Opuszcza stolik 3

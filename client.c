@@ -1,4 +1,3 @@
-// Client Spawner and Simulation for Pizzeria Simulation
 #include "utilities.h"
 #include <sys/ipc.h>
 #include <sys/msg.h>
@@ -24,13 +23,11 @@ void *client_spawner(void *arg) {
 
         pid_t pid = fork();
         if (pid == 0) {
-            // Inicjalizacja w procesie potomnym
             pthread_mutex_destroy(&screen_mutex);
             pthread_mutex_init(&screen_mutex, NULL);
 
+            srand(time(NULL) ^ getpid());
             int group_size = (rand() % 3) + 1;
-            snprintf(log_message, sizeof(log_message), "[Client %d] Rozpoczyna symulację (grupa %d osób)", i + 1, group_size);
-            log_event(log_message);
 
             simulate_client(i + 1, group_size);
             exit(EXIT_SUCCESS);
@@ -49,16 +46,23 @@ void simulate_client(int group_id, int group_size) {
     setbuf(stdout, NULL); // Wyłączenie buforowania
     setbuf(stderr, NULL);
 
-    log_event("[Client ID] Rozpoczyna symulację");
+    // Logowanie startu symulacji
+    struct log_message log;
+    log.msg_type = 1; // Typ wiadomości
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Rozpoczyna symulację (grupa %d osób)", group_id, group_size);
+    if (msgsnd(msg_id, &log, sizeof(log.content), 0) == -1) {
+        perror("[Klient] Nie udało się wysłać wiadomości do logów");
+    }
 
-    // Attach to shared memory
+    // Podłączanie do pamięci współdzielonej
     Table *tables = shmat(shm_id, NULL, 0);
     if (tables == (void *)-1) {
-        log_event("[Client] Błąd dolaczania do pamięci dzielonej");
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Błąd dołączania do pamięci współdzielonej", group_id);
+        msgsnd(msg_id, &log, sizeof(log.content), 0);
         exit(EXIT_FAILURE);
     }
 
-    // Try to find a suitable table
+    // Szukanie odpowiedniego stolika
     int table_id = -1;
     sem_lock(sem_id); // Lock semaphore
     for (int i = 0; i < MAX_TABLES; i++) {
@@ -72,22 +76,21 @@ void simulate_client(int group_id, int group_size) {
     sem_unlock(sem_id); // Unlock semaphore
 
     if (table_id == -1) {
-        char log_message[200];
-        snprintf(log_message, sizeof(log_message), "[Client ID:%d] Nie może wejść. Brak wolnych miejsc.", group_id);
-        log_event(log_message);
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie może wejść. Brak wolnych miejsc.", group_id);
+        msgsnd(msg_id, &log, sizeof(log.content), 0);
         shmdt(tables);
         exit(EXIT_FAILURE);
     }
 
-    // Log seating
-    char log_message[200];
-    snprintf(log_message, sizeof(log_message), "[Client ID:%d] Zajął stolik %d", group_id, table_id + 1);
-    log_event(log_message);
+    // Logowanie zajęcia stolika
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Zajął stolik %d", group_id, table_id + 1);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
 
-    // Place an order
+    // Składanie zamówienia
     FILE *menu = fopen(MENU_FILE, "r");
     if (!menu) {
-        log_event("[Client] Nie udało się otworzyć menu");
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie udało się otworzyć menu", group_id);
+        msgsnd(msg_id, &log, sizeof(log.content), 0);
         shmdt(tables);
         exit(EXIT_FAILURE);
     }
@@ -104,33 +107,34 @@ void simulate_client(int group_id, int group_size) {
     srand(time(NULL) ^ group_id);
     int choice = rand() % item_count;
 
-    struct order_message msg;
-    msg.msg_type = 1;
-    msg.table_id = table_id;
-    msg.group_id = group_id;
-    snprintf(msg.order, sizeof(msg.order), "%s", items[choice]);
-    msg.price = prices[choice];
+    struct order_message order_msg;
+    order_msg.msg_type = 1;
+    order_msg.table_id = table_id;
+    order_msg.group_id = group_id;
+    snprintf(order_msg.order, sizeof(order_msg.order), "%s", items[choice]);
+    order_msg.price = prices[choice];
 
-    if (msgsnd(msg_id, &msg, sizeof(msg) - sizeof(long), 0) == -1) {
-        log_event("[Client] Nie udało się wysłać zamówienia");
+    if (msgsnd(msg_id, &order_msg, sizeof(order_msg) - sizeof(long), 0) == -1) {
+        snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Nie udało się wysłać zamówienia", group_id);
+        msgsnd(msg_id, &log, sizeof(log.content), 0);
         shmdt(tables);
         exit(EXIT_FAILURE);
     }
 
-    snprintf(log_message, sizeof(log_message), "[Client ID:%d] Zamówił %s (%.2f PLN)", group_id, msg.order, msg.price);
-    log_event(log_message);
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Zamówił %s (%.2f PLN)", group_id, items[choice], prices[choice]);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
 
-    // Simulate dining
+    // Symulacja jedzenia
     sleep(3);
 
-    // Leave table
+    // Opuszczanie stolika
     sem_lock(sem_id);
     tables[table_id].occupied = 0;
     snprintf(tables[table_id].order_status, sizeof(tables[table_id].order_status), "Wolny (0/%d)", tables[table_id].capacity);
     sem_unlock(sem_id);
 
-    snprintf(log_message, sizeof(log_message), "[Client ID:%d] Opuszcza stolik %d", group_id, table_id + 1);
-    log_event(log_message);
+    snprintf(log.content, sizeof(log.content), "[Klient ID:%d] Opuszcza stolik %d", group_id, table_id + 1);
+    msgsnd(msg_id, &log, sizeof(log.content), 0);
 
     shmdt(tables);
     exit(EXIT_SUCCESS);
