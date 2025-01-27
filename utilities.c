@@ -1,4 +1,4 @@
-// Updated utilities.c with improved ncurses visualization and logging
+// Updated utilities.c with console output using printf and ANSI colors
 #include "utilities.h"
 #include <time.h>
 
@@ -7,100 +7,95 @@ float total_revenue = 0;
 int log_count = 0;
 char log_messages[MAX_LOGS][200];
 
+// ANSI Color Codes
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
+#define RED_BG "\033[41m"
+
 void log_event(const char *message) {
     pthread_mutex_lock(&screen_mutex);
-    char timestamp[20];
-    time_t now = time(NULL);
-    struct tm *t = localtime(&now);
-    strftime(timestamp, sizeof(timestamp), "%H:%M:%S", t);
 
+    // Dodawanie logu do tablicy
     if (log_count < MAX_LOGS) {
-        snprintf(log_messages[log_count], sizeof(log_messages[log_count]), "%s %s", timestamp, message);
+        snprintf(log_messages[log_count], sizeof(log_messages[log_count]), "%s", message);
         log_count++;
     } else {
         for (int i = 1; i < MAX_LOGS; i++) {
             strncpy(log_messages[i - 1], log_messages[i], sizeof(log_messages[i - 1]));
         }
-        snprintf(log_messages[MAX_LOGS - 1], sizeof(log_messages[MAX_LOGS - 1]), "%s %s", timestamp, message);
+        snprintf(log_messages[MAX_LOGS - 1], sizeof(log_messages[MAX_LOGS - 1]), "%s", message);
     }
+
+    pthread_mutex_unlock(&screen_mutex);
+}
+
+void display_interface(Table *tables, int table_count) {
+    pthread_mutex_lock(&screen_mutex);
+    system("clear"); // Czyszczenie konsoli
+
+    // Naglowek
+    printf("============================================================\n");
+    printf("                     %sPIZZERIA%s\n", CYAN, RESET);
+    printf("============================================================\n\n");
+
+    // Stoliki
+    printf("%s[STOLIKI]%s\n", CYAN, RESET);
+    printf("------------------------------------------------------------\n");
+    for (int i = 0; i < table_count; i++) {
+        printf("Stolik %d | %s%s%s   | Zamowienie: %s%s%s\n", 
+               i + 1,
+               tables[i].occupied > 0 ? RED : GREEN,
+               tables[i].occupied > 0 ? "Zajety" : "Wolny", RESET,
+               tables[i].order_status[0] ? BLUE : YELLOW,
+               tables[i].order_status[0] ? tables[i].order_status : "Brak", RESET);
+    }
+
+    // Dochod
+    printf("\n%s[DOCHOD]%s\n", CYAN, RESET);
+    printf("------------------------------------------------------------\n");
+    printf("Laczny dochod: %s%.2f PLN%s\n\n", YELLOW, total_revenue, RESET);
+
+    // Logi
+    printf("%s[LOGI]%s\n", CYAN, RESET);
+    printf("------------------------------------------------------------\n");
+    for (int i = 0; i < log_count; i++) {
+        printf("%s%s%s\n", strstr(log_messages[i], "ALERT") ? RED_BG : WHITE, log_messages[i], RESET);
+    }
+
+    printf("============================================================\n");
     pthread_mutex_unlock(&screen_mutex);
 }
 
 void update_table_status(int table_index, int occupied, int capacity, const char *status) {
     pthread_mutex_lock(&screen_mutex);
-    mvprintw(table_index + 1, 0, "[%d] %s: %d/%d", table_index + 1, status, occupied, capacity);
-    refresh();
-    pthread_mutex_unlock(&screen_mutex);
-}
-
-void update_order_status(int table_index, const char *status) {
-    pthread_mutex_lock(&screen_mutex);
-    mvprintw(table_index + 1, 30, "Stolik %d: %s", table_index + 1, status);
-    refresh();
+    snprintf(log_messages[log_count], sizeof(log_messages[log_count]), "[STOLIK %d] Status: %s", table_index + 1, status);
+    log_count = (log_count + 1) % MAX_LOGS;
     pthread_mutex_unlock(&screen_mutex);
 }
 
 void update_revenue(float amount) {
     pthread_mutex_lock(&screen_mutex);
     total_revenue += amount;
-    mvprintw(MAX_TABLES + 5, 0, "DOCHÓD: %.2f PLN", total_revenue);
-    refresh();
     pthread_mutex_unlock(&screen_mutex);
 }
 
-void init_ncurses() {
-    setlocale(LC_ALL, "");
-    initscr();
-    noecho();
-    curs_set(FALSE);
-    nodelay(stdscr, TRUE);
-    draw_interface();
+void init_console() {
+    printf("Pizzeria uruchomiona!\n");
 }
 
-void end_ncurses() {
-    clear();
-    refresh();
-    endwin();
-}
-
-void draw_interface() {
-    Table *tables = shmat(shm_id, NULL, 0);
-    if (tables == (void *)-1) {
-        perror("[Utilities] Błąd dołączania pamięci dzielonej w draw_interface");
-        return;
-    }
-
-    clear();
-
-    // Sekcja STOLIKI
-    mvprintw(0, 0, "STOLIKI:");
-    for (int i = 0; i < MAX_TABLES; i++) {
-        mvprintw(i + 1, 0, "[%d] %s: %d/%d", 
-            i + 1, 
-            tables[i].occupied > 0 ? "Zajęty" : "Wolny", 
-            tables[i].occupied, 
-            tables[i].capacity
-        );
-        mvprintw(i + 1, 30, "Status: %s", tables[i].order_status);
-    }
-
-    // Sekcja ZAMÓWIENIA
-    mvprintw(MAX_TABLES + 2, 0, "ZAMÓWIENIA:");
-    for (int i = 0; i < log_count && i < MAX_LOGS; i++) {
-        mvprintw(MAX_TABLES + 3 + i, 0, "%s", log_messages[i]);
-    }
-
-    // Sekcja DOCHÓD
-    mvprintw(MAX_TABLES + MAX_LOGS + 4, 0, "DOCHÓD: %.2f PLN", total_revenue);
-
-    refresh();
-    shmdt(tables);
+void cleanup_console() {
+    printf("Zamkniecie pizzerii. Dziekujemy!\n");
 }
 
 void sem_lock(int sem_id) {
     struct sembuf op = {0, -1, 0};
     if (semop(sem_id, &op, 1) == -1) {
-        perror("[Semafor] Błąd blokowania");
+        perror("[Semafor] Blad blokowania");
         exit(EXIT_FAILURE);
     }
 }
@@ -108,7 +103,7 @@ void sem_lock(int sem_id) {
 void sem_unlock(int sem_id) {
     struct sembuf op = {0, 1, 0};
     if (semop(sem_id, &op, 1) == -1) {
-        perror("[Semafor] Błąd odblokowywania");
+        perror("[Semafor] Blad odblokowywania");
         exit(EXIT_FAILURE);
     }
 }

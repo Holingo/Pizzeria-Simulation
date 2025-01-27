@@ -1,12 +1,14 @@
-// Updated utilities.h to align with console-based interface
+// Updated utilities.h for better resource management and consistency
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
 #include <pthread.h>
+#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
@@ -20,6 +22,7 @@
 
 #define MAX_LOGS 100
 #define MAX_TABLES 4
+#define MAX_ORDERS 4
 #define MENU_FILE "menu.txt"
 
 struct order_message {
@@ -30,12 +33,7 @@ struct order_message {
     float price;
 };
 
-struct log_message {
-    long msg_type; // Typ wiadomości (ustaw na 1)
-    char content[200];
-};
-
-// Globalne zmienne logowania
+// Globalne zmienne dla logow
 extern pthread_mutex_t screen_mutex;
 extern float total_revenue;
 extern int log_count;
@@ -54,20 +52,21 @@ typedef struct {
 
 // Deklaracja funkcji logowania
 void log_event(const char *message);
-void display_interface(Table *tables, int table_count);
 void update_table_status(int table_index, int occupied, int capacity, const char *status);
+void update_order_status(int table_index, const char *status);
 void update_revenue(float amount);
-void init_console();
-void cleanup_console();
+
+// Ncurses utility functions
+void init_ncurses();
+void end_ncurses();
+void draw_interface();
 
 // Semafory
 void sem_lock(int sem_id);
 void sem_unlock(int sem_id);
 
-// Function prototypes
+// Klienci
 void simulate_client(int group_id, int group_size);
-void *client_spawner(void *arg);
-void send_log(const char *message);
 
 // Pozar
 void *firefighter_behavior(void *arg);
@@ -77,7 +76,7 @@ void handle_fire_signal(int sig);
 void *cashier_behavior(void *arg);
 
 // Zarzadzanie zasobami
-void initialize_resources(int X1, int X2, int X3, int X4);
+void initialize_resources();
 void cleanup_resources();
 
 #endif

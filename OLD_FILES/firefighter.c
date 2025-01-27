@@ -1,4 +1,4 @@
-// Updated firefighter.c to use console-based logging and interface
+// Updated firefighter.c with improved fire signal handling and ncurses effect
 #include "utilities.h"
 #include <signal.h>
 #include <pthread.h>
@@ -9,8 +9,14 @@ void handle_fire_signal(int sig) {
         log_event("[Strazak] Otrzymano sygnal pozaru! Wszyscy klienci opuszczaja lokal.");
         is_open = 0; // Zamykanie pizzerii
 
-        // Informowanie o stanie pizzerii
-        log_event("[Strazak] Lokal zostanie zamkniety.");
+        // Efekt wizualny w ncurses
+        pthread_mutex_lock(&screen_mutex);
+        clear();
+        mvprintw(0, 0, "UWAGA! POZAR! LOKAL ZAMKNIETY!");
+        refresh();
+        pthread_mutex_unlock(&screen_mutex);
+
+        // Czekanie na opuszczenie lokalu przez wszystkie watki
         sleep(2); // Symulacja reakcji na pozar
     }
 }
