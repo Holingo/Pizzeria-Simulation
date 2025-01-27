@@ -125,9 +125,31 @@ Aby uruchomić program, użyj:
 ---
 
 ## Struktury danych
-- **`Table`** - przechowuje informacje o stolikach.
-- **`order_message`** - struktura zamówienia przesyłanego przez kolejkę komunikatów.
-- **`log_message`** - struktura do logowania zdarzeń.
+- [Link do kodu ]**`Table`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L53-L58) - przechowuje informacje o stolikach.
+```c
+typedef struct {
+    int capacity;       // Liczba miejsc przy stoliku
+    int occupied;       // Liczba zajętych miejsc
+    char order_status[100]; // Status zamówienia
+} Table;
+```
+- [Link do kodu ]**`order_message`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L30-L37) - struktura zamówienia przesyłanego przez kolejkę komunikatów.
+```c
+struct order_message {
+    long msg_type;      // Typ wiadomości
+    int table_id;       // ID stolika
+    int group_id;       // ID grupy klientów
+    char order[100];    // Zamówienie
+    float price;        // Cena zamówienia
+};
+```
+- [Link do kodu ]**`log_message`**(https://github.com/Holingo/Pizzeria-Simulation/blob/117f5d711715f1a151978dbfdbe5ca00d009f600/utilities.h#L39-L42) - struktura do logowania zdarzeń.
+```c
+struct log_message {
+    long msg_type;      // Typ wiadomości
+    char content[200];  // Treść loga
+};
+```
 
 ---
 
