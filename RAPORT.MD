@@ -131,6 +131,20 @@ System korzysta z procesów i wątków do symulacji współbieżnych działań o
 
 ---
 
+### Obsługa sygnału `SIGUSR1` w `firefighter.c`
+
+```c
+void handle_fire_signal(int sig) {
+    if (sig == SIGUSR1) {
+        log_event("[Strażak] Otrzymano sygnał pożaru! Wszyscy klienci opuszczają lokal.");
+        is_open = 0; // Zamykanie lokalu
+        log_event("[Strażak] Lokal zostanie zamknięty.");
+        sleep(2); // Symulacja reakcji na pożar
+    }
+}
+
+---
+
 ## Podsumowanie
 
 Projekt został zrealizowany zgodnie z wymaganiami, z uwzględnieniem dodatkowych funkcjonalności, takich jak kolorowy interfejs użytkownika i zaawansowana obsługa błędów. Wszystkie testy zakończyły się pomyślnie, a kod spełnia kryteria czytelności i modularności.
