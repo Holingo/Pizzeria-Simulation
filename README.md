@@ -1,7 +1,7 @@
 # Projekt: Symulacja Restauracji z Obsługą Wieloprocesową
 
 ## Założenia projektowe
-Projekt symuluje działanie restauracji (pizzerii) z wykorzystaniem mechanizmów wieloprocesowych. System obsługuje klientów, zarządza stolikami oraz obsługuje sytuacje awaryjne, takie jak pożar. Procesy i komunikacja między nimi realizowane są za pomocą pamięci współdzielonej, kolejek komunikatów, semaforów oraz sygnałów.
+Projekt symuluje działanie pizzerii, w której kelner zarządza restauracją, przydziela stoliki grupom klientów oraz obsługuje zdarzenia związane z funkcjonowaniem restauracji. System opiera się na procesach i mechanizmach systemowych dostępnych w UNIX/Linux, takich jak pamięć współdzielona, semafory, kolejki komunikatów oraz obsługa sygnałów.
 
 ---
 
@@ -26,6 +26,97 @@ Projekt symuluje działanie restauracji (pizzerii) z wykorzystaniem mechanizmów
 
 5. **`common.h`**:
    - Zawiera wspólne definicje struktur i funkcji pomocniczych, takich jak pamięć współdzielona, semafory i kolory terminala.
+
+---
+
+### Opis struktury Reustaracji
+
+#### Stoliki
+- Restauracja dysponuje stolikami różnych rozmiarów:
+  - 1-osobowe.
+  - 2-osobowe.
+  - 3-osobowe.
+  - 4-osobowe.
+- Domyślnie każdy rodzaj stolika występuje w liczbie 1. Liczba stolików może być zmieniana w konfiguracji.
+
+#### Grupy Klientów
+- Do restauracji wchodzą grupy klientów liczące od 1 do 3 osób.
+- Przydział stolików:
+  - Grupa 1-osobowa może zająć dowolny stolik.
+  - Grupa 2-osobowa wymaga stolika 2-osobowego lub większego.
+  - Grupa 3-osobowa wymaga stolika 3-osobowego lub większego.
+
+---
+
+### Mechanizmy Zarządzania
+
+#### Kelner
+- Zarządza operacjami w restauracji:
+  - Przydziela stoliki grupom klientów.
+  - Obsługuje procesy klientów.
+  - Zwalnia stoliki po zakończeniu posiłków.
+  - Obsługuje zdarzenia wyjątkowe, takie jak pożar.
+
+#### Klienci
+- Każda grupa klientów jest reprezentowana przez osobny proces.
+- Klienci wysyłają żądanie przydziału stolika do kelnera.
+- Po przydziale stolika zamawiają pizzę i zajmują miejsce, a następnie opuszczają restaurację.
+
+---
+
+### Mechanizmy Synchronizacji i Komunikacji
+
+#### Pamięć Współdzielona
+- Struktura `SharedData` przechowuje informacje o stolikach, klientach oraz statystykach restauracji.
+
+#### Semafory
+- Zapewniają synchronizację dostępu do pamięci współdzielonej, unikając konfliktów między procesami.
+
+#### Kolejki Komunikatów
+- Umożliwiają komunikację między procesami klientów a kelnerem.
+
+#### Sygnały
+- Obsługują zdarzenia wyjątkowe:
+  - Sygnał `SIGUSR1` wywołuje zdarzenie pożaru, zmuszając restaurację do ewakuacji.
+
+---
+
+### Statystyki Restauracji
+
+#### Zbierane Dane
+- Liczba obsłużonych klientów.
+- Liczba odrzuconych klientów.
+- Łączne zarobki restauracji.
+- Średni czas obsługi klienta.
+- Czas trwania programu.
+
+#### Wyświetlanie
+- Po zakończeniu działania restauracji kelner wyświetla statystyki, które można również zapisać do pliku logów.
+
+---
+
+### Zarządzanie Wyjątkami
+
+#### Brak Wolnych Stolików
+- Klienci, którzy nie otrzymują stolika, są odrzucani, a ich procesy kończą się kontrolowanym komunikatem.
+
+#### Pożar w Restauracji
+- Wywołany sygnałem `SIGUSR1`, pożar powoduje ewakuację wszystkich klientów i zamknięcie restauracji.
+
+#### Obsługa Błędów
+- Każda funkcja systemowa (np. `shmget`, `semget`, `msgget`) jest zabezpieczona przed błędami przy użyciu `perror()`.
+
+---
+
+### Konfiguracja i Skalowalność
+
+#### Parametry Konfiguracyjne
+- Liczba stolików każdego rodzaju.
+- Maksymalna liczba klientów.
+- Zakres wielkości grup klientów.
+
+#### Testy Skalowalności
+- Program działa wydajnie przy dużej liczbie klientów (np. 100, 1000 klientów).
 
 ---
 

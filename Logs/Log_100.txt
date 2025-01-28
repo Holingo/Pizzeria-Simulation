@@ -1,0 +1,587 @@
+[Main] Uruchomiono ./cashier (PID: 226709)
+[Kasjer] PID: 226709
+[Main] Uruchomiono ./customer (PID: 226710)
+[Kasjer] Grupa 3 (PID 226710) dostała stolik 2
+[Klient PID: 226710] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226710] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226711)
+[Main] Uruchomiono ./customer (PID: 226712)
+[Kasjer] Grupa 2 (PID 226712) dostała stolik 1
+[Klient PID: 226712] Zamówił: Pepperoni (30 zł) | Stolik 1
+[Klient PID: 226712] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226711) dostała stolik 3
+[Klient PID: 226711] Zamówił: Wegetariańska (32 zł) | Stolik 3
+[Klient PID: 226711] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226713)
+[Klient PID: 226713] Zamówił: Pepperoni (30 zł) | Stolik 3
+[Kasjer] Grupa 2 (PID 226713) dostała stolik 3
+[Klient PID: 226713] Jem pizzę...
+[Klient PID: 226710] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226710)
+[Klient PID: 226712] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226712)
+[Main] Uruchomiono ./customer (PID: 226714)
+[Kasjer] Grupa 2 (PID 226714) dostała stolik 1
+[Klient PID: 226714] Zamówił: Capricciosa (34 zł) | Stolik 1
+[Klient PID: 226714] Jem pizzę...
+[Kasjer] Stolik 3 zwolniony przez grupę 2 (PID 226711)
+[Klient PID: 226711] Zjadłem. Wychodzę.
+[Klient PID: 226713] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 2 (PID 226713)
+[Main] Uruchomiono ./customer (PID: 226715)
+[Klient PID: 226714] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226714)
+[Kasjer] Grupa 3 (PID 226715) dostała stolik 2
+[Klient PID: 226715] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226715] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226716)
+[Kasjer] Grupa 3 (PID 226716) dostała stolik 3
+[Klient PID: 226716] Zamówił: Wegetariańska (32 zł) | Stolik 3
+[Klient PID: 226716] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226717)
+[Klient PID: 226715] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226715)
+[Main] Uruchomiono ./customer (PID: 226718)
+[Kasjer] Grupa 3 (PID 226717) dostała stolik 2
+[Kasjer] Grupa 3 (PID 226718) dostała stolik -1
+[Klient PID: 226718] Brak stolika. Wychodzę.
+[Klient PID: 226717] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226717] Jem pizzę...
+[Klient PID: 226716] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226716)
+[Main] Uruchomiono ./customer (PID: 226719)
+[Main] Uruchomiono ./customer (PID: 226720)
+[Klient PID: 226717] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226717)
+[Main] Uruchomiono ./customer (PID: 226721)
+[Klient PID: 226719] Zamówił: Capricciosa (34 zł) | Stolik 1
+[Klient PID: 226719] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226719) dostała stolik 1
+[Kasjer] Grupa 2 (PID 226721) dostała stolik 2
+[Klient PID: 226721] Zamówił: Capricciosa (34 zł) | Stolik 2
+[Klient PID: 226721] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226720) dostała stolik 0
+[Klient PID: 226720] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 226720] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226722)
+[Main] Uruchomiono ./customer (PID: 226723)
+[Main] Uruchomiono ./customer (PID: 226724)
+[Klient PID: 226719] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226719)
+[Kasjer] Grupa 3 (PID 226723) dostała stolik 3
+[Klient PID: 226723] Zamówił: Margherita (25 zł) | Stolik 3
+[Klient PID: 226723] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226722) dostała stolik 1
+[Klient PID: 226722] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226722] Jem pizzę...
+[Klient PID: 226720] Zjadłem. Wychodzę.
+[Klient PID: 226724] Brak stolika. Wychodzę.
+[Kasjer] Grupa 1 (PID 226724) dostała stolik -1
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226720)
+[Main] Uruchomiono ./customer (PID: 226725)
+[Main] Uruchomiono ./customer (PID: 226726)
+[Klient PID: 226721] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226721)
+[Kasjer] Grupa 3 (PID 226726) dostała stolik 2
+[Klient PID: 226726] Zamówił: Capricciosa (34 zł) | Stolik 2
+[Klient PID: 226726] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226725) dostała stolik -1
+[Klient PID: 226725] Brak stolika. Wychodzę.
+[Klient PID: 226726] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226726)
+[Klient PID: 226723] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226723)
+[Main] Uruchomiono ./customer (PID: 226727)
+[Klient PID: 226727] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226727] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226727) dostała stolik 2
+[Klient PID: 226722] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226722)
+[Main] Uruchomiono ./customer (PID: 226728)
+[Klient PID: 226727] Zjadłem. Wychodzę.
+[Klient PID: 226728] Zamówił: Hawajska (28 zł) | Stolik 0
+[Kasjer] Grupa 1 (PID 226728) dostała stolik 0
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226727)
+[Klient PID: 226728] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226729)
+[Klient PID: 226729] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226729] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226729) dostała stolik 1
+[Main] Uruchomiono ./customer (PID: 226730)
+[Klient PID: 226730] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226730] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226730) dostała stolik 2
+[Klient PID: 226728] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226728)
+[Klient PID: 226729] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 1 (PID 226729)
+[Main] Uruchomiono ./customer (PID: 226731)
+[Kasjer] Grupa 1 (PID 226731) dostała stolik 0
+[Klient PID: 226731] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 226731] Jem pizzę...
+[Klient PID: 226730] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226730)
+[Main] Uruchomiono ./customer (PID: 226732)
+[Klient PID: 226731] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226731)
+[Klient PID: 226732] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 226732] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226732) dostała stolik 0
+[Main] Uruchomiono ./customer (PID: 226733)
+[Main] Uruchomiono ./customer (PID: 226734)
+[Kasjer] Grupa 1 (PID 226734) dostała stolik 1
+[Klient PID: 226734] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226734] Jem pizzę...
+[Klient PID: 226733] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226733] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226733) dostała stolik 2
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226732)
+[Klient PID: 226732] Zjadłem. Wychodzę.
+[Klient PID: 226734] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 1 (PID 226734)
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226733)
+[Klient PID: 226733] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226738)
+[Kasjer] Grupa 1 (PID 226738) dostała stolik 0
+[Klient PID: 226738] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 226738] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226739)
+[Klient PID: 226738] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226738)
+[Kasjer] Grupa 3 (PID 226739) dostała stolik 2
+[Klient PID: 226739] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226739] Jem pizzę...
+[Klient PID: 226739] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226739)
+[Main] Uruchomiono ./customer (PID: 226740)
+[Klient PID: 226740] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226740] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226740) dostała stolik 1
+[Main] Uruchomiono ./customer (PID: 226741)
+[Kasjer] Grupa 3 (PID 226741) dostała stolik 2
+[Klient PID: 226741] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226741] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226742)
+[Klient PID: 226740] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226740)
+[Kasjer] Grupa 3 (PID 226742) dostała stolik 3
+[Klient PID: 226742] Zamówił: Pepperoni (30 zł) | Stolik 3
+[Klient PID: 226742] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226743)
+[Klient PID: 226741] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226741)
+[Klient PID: 226743] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226743] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226743) dostała stolik 0
+[Klient PID: 226742] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226742)
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226743)
+[Klient PID: 226743] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226744)
+[Klient PID: 226744] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226744] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226744) dostała stolik 2
+[Main] Uruchomiono ./customer (PID: 226745)
+[Kasjer] Grupa 2 (PID 226745) dostała stolik 1
+[Klient PID: 226745] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226745] Jem pizzę...
+[Klient PID: 226744] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226744)
+[Main] Uruchomiono ./customer (PID: 226746)
+[Main] Uruchomiono ./customer (PID: 226747)
+[Klient PID: 226745] Zjadłem. Wychodzę.
+[Klient PID: 226747] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Kasjer] Grupa 2 (PID 226747) dostała stolik 2
+[Klient PID: 226747] Jem pizzę...
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226745)
+[Kasjer] Grupa 1 (PID 226746) dostała stolik 0
+[Klient PID: 226746] Zamówił: Wegetariańska (32 zł) | Stolik 0
+[Klient PID: 226746] Jem pizzę...
+[Klient PID: 226746] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226746)
+[Main] Uruchomiono ./customer (PID: 226748)
+[Main] Uruchomiono ./customer (PID: 226749)
+[Kasjer] Grupa 2 (PID 226749) dostała stolik 1
+[Kasjer] Grupa 2 (PID 226748) dostała stolik 3
+[Klient PID: 226749] Zamówił: Margherita (25 zł) | Stolik 1
+[Klient PID: 226749] Jem pizzę...
+[Klient PID: 226748] Zamówił: Wegetariańska (32 zł) | Stolik 3
+[Klient PID: 226747] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226747)
+[Klient PID: 226748] Jem pizzę...
+[Klient PID: 226748] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 2 (PID 226748)
+[Main] Uruchomiono ./customer (PID: 226750)
+[Main] Uruchomiono ./customer (PID: 226751)
+[Klient PID: 226749] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226749)
+[Kasjer] Grupa 3 (PID 226751) dostała stolik 2
+[Klient PID: 226751] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226751] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226750) dostała stolik 0
+[Klient PID: 226750] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226750] Jem pizzę...
+[Klient PID: 226751] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226751)
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226750)
+[Klient PID: 226750] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226752)
+[Kasjer] Grupa 3 (PID 226752) dostała stolik 2
+[Klient PID: 226752] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226752] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226753)
+[Klient PID: 226752] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226752)
+[Kasjer] Grupa 1 (PID 226753) dostała stolik 0
+[Klient PID: 226753] Zamówił: Wegetariańska (32 zł) | Stolik 0
+[Klient PID: 226753] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226754)
+[Main] Uruchomiono ./customer (PID: 226755)
+[Main] Uruchomiono ./customer (PID: 226756)
+[Kasjer] Grupa 1 (PID 226755) dostała stolik 1
+[Kasjer] Grupa 2 (PID 226754) dostała stolik 2
+[Klient PID: 226755] Zamówił: Pepperoni (30 zł) | Stolik 1
+[Klient PID: 226755] Jem pizzę...
+[Klient PID: 226753] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226753)
+[Kasjer] Grupa 2 (PID 226756) dostała stolik 3
+[Klient PID: 226754] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226754] Jem pizzę...
+[Klient PID: 226756] Zamówił: Wegetariańska (32 zł) | Stolik 3
+[Klient PID: 226756] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226757)
+[Main] Uruchomiono ./customer (PID: 226758)
+[Main] Uruchomiono ./customer (PID: 226759)
+[Main] Uruchomiono ./customer (PID: 226760)
+[Klient PID: 226755] Zjadłem. Wychodzę.
+[Klient PID: 226754] Zjadłem. Wychodzę.
+[Klient PID: 226756] Zjadłem. Wychodzę.
+[Kasjer] Grupa 1 (PID 226758) dostała stolik 0
+[Klient PID: 226758] Zamówił: Wegetariańska (32 zł) | Stolik 0
+[Klient PID: 226758] Jem pizzę...
+[Kasjer] Stolik 1 zwolniony przez grupę 1 (PID 226755)
+[Kasjer] Grupa 2 (PID 226757) dostała stolik 1
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226754)
+[Klient PID: 226757] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226757] Jem pizzę...
+[Klient PID: 226759] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226759] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226759) dostała stolik 2
+[Kasjer] Stolik 3 zwolniony przez grupę 2 (PID 226756)
+[Kasjer] Grupa 2 (PID 226760) dostała stolik 3
+[Klient PID: 226760] Zamówił: Margherita (25 zł) | Stolik 3
+[Klient PID: 226760] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226761)
+[Kasjer] Grupa 1 (PID 226761) dostała stolik 2
+[Klient PID: 226761] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226761] Jem pizzę...
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226757)
+[Klient PID: 226757] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 1 (PID 226759)
+[Klient PID: 226759] Zjadłem. Wychodzę.
+[Klient PID: 226761] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 1 (PID 226761)
+[Klient PID: 226760] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 2 (PID 226760)
+[Main] Uruchomiono ./customer (PID: 226762)
+[Klient PID: 226758] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226758)
+[Kasjer] Grupa 3 (PID 226762) dostała stolik 2
+[Klient PID: 226762] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226762] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226763)
+[Klient PID: 226763] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226763] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226763) dostała stolik 0
+[Klient PID: 226762] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226762)
+[Klient PID: 226763] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226763)
+[Main] Uruchomiono ./customer (PID: 226764)
+[Main] Uruchomiono ./customer (PID: 226765)
+[Kasjer] Grupa 2 (PID 226765) dostała stolik 1
+[Kasjer] Grupa 3 (PID 226764) dostała stolik 2
+[Klient PID: 226765] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226765] Jem pizzę...
+[Klient PID: 226764] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226764] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226766)
+[Main] Uruchomiono ./customer (PID: 226767)
+[Klient PID: 226765] Zjadłem. Wychodzę.
+[Klient PID: 226764] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226765)
+[Kasjer] Grupa 1 (PID 226767) dostała stolik 0
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226764)
+[Kasjer] Grupa 2 (PID 226766) dostała stolik 1
+[Klient PID: 226767] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226767] Jem pizzę...
+[Klient PID: 226766] Zamówił: Margherita (25 zł) | Stolik 1
+[Klient PID: 226766] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226768)
+[Kasjer] Grupa 2 (PID 226768) dostała stolik 2
+[Klient PID: 226768] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226768] Jem pizzę...
+[Klient PID: 226767] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226767)
+[Klient PID: 226766] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226766)
+[Main] Uruchomiono ./customer (PID: 226769)
+[Klient PID: 226768] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226768)
+[Kasjer] Grupa 2 (PID 226769) dostała stolik 1
+[Klient PID: 226769] Zamówił: Pepperoni (30 zł) | Stolik 1
+[Klient PID: 226769] Jem pizzę...
+[Klient PID: 226769] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226769)
+[Main] Uruchomiono ./customer (PID: 226770)
+[Kasjer] Grupa 1 (PID 226770) dostała stolik 0
+[Klient PID: 226770] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226770] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226771)
+[Klient PID: 226771] Zamówił: Margherita (25 zł) | Stolik 1
+[Klient PID: 226771] Jem pizzę...
+[Klient PID: 226770] Zjadłem. Wychodzę.
+[Kasjer] Grupa 1 (PID 226771) dostała stolik 1
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226770)
+[Klient PID: 226771] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 1 (PID 226771)
+[Main] Uruchomiono ./customer (PID: 226772)
+[Main] Uruchomiono ./customer (PID: 226773)
+[Kasjer] Grupa 1 (PID 226773) dostała stolik 0
+[Kasjer] Grupa 3 (PID 226772) dostała stolik 2
+[Klient PID: 226773] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 226773] Jem pizzę...
+[Klient PID: 226772] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226772] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226774)
+[Klient PID: 226774] Zamówił: Pepperoni (30 zł) | Stolik 3
+[Klient PID: 226774] Jem pizzę...
+[Klient PID: 226773] Zjadłem. Wychodzę.
+[Kasjer] Grupa 3 (PID 226774) dostała stolik 3
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226773)
+[Klient PID: 226774] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226774)
+[Main] Uruchomiono ./customer (PID: 226775)
+[Klient PID: 226772] Zjadłem. Wychodzę.
+[Klient PID: 226775] Zamówił: Capricciosa (34 zł) | Stolik 1
+[Klient PID: 226775] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226775) dostała stolik 1
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226772)
+[Klient PID: 226775] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226775)
+[Main] Uruchomiono ./customer (PID: 226776)
+[Main] Uruchomiono ./customer (PID: 226777)
+[Kasjer] Grupa 3 (PID 226777) dostała stolik 2
+[Klient PID: 226777] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226777] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226776) dostała stolik 1
+[Klient PID: 226776] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226776] Jem pizzę...
+[Klient PID: 226776] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226776)
+[Main] Uruchomiono ./customer (PID: 226778)
+[Kasjer] Grupa 2 (PID 226778) dostała stolik 1
+[Klient PID: 226778] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226778] Jem pizzę...
+[Klient PID: 226777] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226777)
+[Klient PID: 226778] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226778)
+[Main] Uruchomiono ./customer (PID: 226779)
+[Main] Uruchomiono ./customer (PID: 226780)
+[Main] Uruchomiono ./customer (PID: 226781)
+[Kasjer] Grupa 1 (PID 226780) dostała stolik 0
+[Kasjer] Grupa 3 (PID 226779) dostała stolik 2
+[Klient PID: 226779] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226779] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226781) dostała stolik 1
+[Klient PID: 226780] Zamówił: Capricciosa (34 zł) | Stolik 0
+[Klient PID: 226780] Jem pizzę...
+[Klient PID: 226781] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226781] Jem pizzę...
+[Klient PID: 226780] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226780)
+[Main] Uruchomiono ./customer (PID: 226782)
+[Klient PID: 226782] Zamówił: Wegetariańska (32 zł) | Stolik 3
+[Klient PID: 226782] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226782) dostała stolik 3
+[Klient PID: 226779] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226779)
+[Klient PID: 226781] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 1 (PID 226781)
+[Klient PID: 226782] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226782)
+[Main] Uruchomiono ./customer (PID: 226784)
+[Main] Uruchomiono ./customer (PID: 226785)
+[Kasjer] Grupa 2 (PID 226784) dostała stolik 1
+[Klient PID: 226784] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226784] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226785) dostała stolik 2
+[Klient PID: 226785] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226785] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226786)
+[Klient PID: 226784] Zjadłem. Wychodzę.
+[Klient PID: 226785] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226784)
+[Kasjer] Grupa 2 (PID 226786) dostała stolik 1
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226785)
+[Klient PID: 226786] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226786] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226787)
+[Kasjer] Grupa 3 (PID 226787) dostała stolik 2
+[Klient PID: 226787] Zamówił: Capricciosa (34 zł) | Stolik 2
+[Klient PID: 226787] Jem pizzę...
+[Klient PID: 226786] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226786)
+[Main] Uruchomiono ./customer (PID: 226788)
+[Kasjer] Grupa 3 (PID 226788) dostała stolik 3
+[Klient PID: 226788] Zamówił: Capricciosa (34 zł) | Stolik 3
+[Klient PID: 226788] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226789)
+[Klient PID: 226787] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226787)
+[Kasjer] Grupa 2 (PID 226789) dostała stolik 1
+[Klient PID: 226789] Zamówił: Capricciosa (34 zł) | Stolik 1
+[Klient PID: 226789] Jem pizzę...
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226788)
+[Klient PID: 226788] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226790)
+[Klient PID: 226789] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226789)
+[Kasjer] Grupa 3 (PID 226790) dostała stolik 2
+[Klient PID: 226790] Zamówił: Capricciosa (34 zł) | Stolik 2
+[Klient PID: 226790] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226791)
+[Klient PID: 226790] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226790)
+[Kasjer] Grupa 3 (PID 226791) dostała stolik 2
+[Klient PID: 226791] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226791] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226792)
+[Main] Uruchomiono ./customer (PID: 226793)
+[Main] Uruchomiono ./customer (PID: 226794)
+[Main] Uruchomiono ./customer (PID: 226795)
+[Main] Uruchomiono ./customer (PID: 226796)
+[Main] Uruchomiono ./customer (PID: 226797)
+[Kasjer] Grupa 1 (PID 226793) dostała stolik 0
+[Kasjer] Grupa 2 (PID 226795) dostała stolik 1
+[Kasjer] Grupa 1 (PID 226792) dostała stolik 3
+[Kasjer] Grupa 2 (PID 226797) dostała stolik -1
+[Kasjer] Grupa 3 (PID 226794) dostała stolik -1
+[Kasjer] Grupa 2 (PID 226796) dostała stolik -1
+[Klient PID: 226792] Zamówił: Margherita (25 zł) | Stolik 3
+[Klient PID: 226792] Jem pizzę...
+[Klient PID: 226797] Brak stolika. Wychodzę.
+[Klient PID: 226793] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 226793] Jem pizzę...
+[Klient PID: 226794] Brak stolika. Wychodzę.
+[Klient PID: 226795] Zamówił: Hawajska (28 zł) | Stolik 1
+[Klient PID: 226795] Jem pizzę...
+[Klient PID: 226796] Brak stolika. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226798)
+[Klient PID: 226791] Zjadłem. Wychodzę.
+[Klient PID: 226798] Brak stolika. Wychodzę.
+[Kasjer] Grupa 3 (PID 226798) dostała stolik -1
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226791)
+[Klient PID: 226793] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226793)
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226795)
+[Klient PID: 226795] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226799)
+[Kasjer] Grupa 3 (PID 226799) dostała stolik 2
+[Klient PID: 226799] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226799] Jem pizzę...
+[Klient PID: 226792] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 1 (PID 226792)
+[Main] Uruchomiono ./customer (PID: 226800)
+[Klient PID: 226799] Zjadłem. Wychodzę.
+[Klient PID: 226800] Zamówił: Pepperoni (30 zł) | Stolik 3
+[Klient PID: 226800] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226800) dostała stolik 3
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226799)
+[Klient PID: 226800] Zjadłem. Wychodzę.
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226800)
+[Main] Uruchomiono ./customer (PID: 226801)
+[Main] Uruchomiono ./customer (PID: 226802)
+[Main] Uruchomiono ./customer (PID: 226803)
+[Main] Uruchomiono ./customer (PID: 226804)
+[Kasjer] Grupa 3 (PID 226802) dostała stolik 2
+[Klient PID: 226802] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 226802] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226801) dostała stolik 1
+[Klient PID: 226801] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226801] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226803) dostała stolik 0
+[Klient PID: 226803] Zamówił: Margherita (25 zł) | Stolik 0
+[Klient PID: 226803] Jem pizzę...
+[Klient PID: 226804] Zamówił: Capricciosa (34 zł) | Stolik 3
+[Klient PID: 226804] Jem pizzę...
+[Kasjer] Grupa 1 (PID 226804) dostała stolik 3
+[Main] Uruchomiono ./customer (PID: 226805)
+[Klient PID: 226805] Brak stolika. Wychodzę.
+[Kasjer] Grupa 3 (PID 226805) dostała stolik -1
+[Klient PID: 226802] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226802)
+[Klient PID: 226803] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 226803)
+[Kasjer] Stolik 3 zwolniony przez grupę 1 (PID 226804)
+[Klient PID: 226804] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226806)
+[Kasjer] Grupa 3 (PID 226806) dostała stolik 2
+[Klient PID: 226806] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226806] Jem pizzę...
+[Klient PID: 226801] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226801)
+[Klient PID: 226806] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226806)
+[Main] Uruchomiono ./customer (PID: 226807)
+[Kasjer] Grupa 2 (PID 226807) dostała stolik 1
+[Klient PID: 226807] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226807] Jem pizzę...
+[Klient PID: 226807] Zjadłem. Wychodzę.
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226807)
+[Main] Uruchomiono ./customer (PID: 226808)
+[Klient PID: 226808] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 226808] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226808) dostała stolik 2
+[Klient PID: 226808] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226808)
+[Main] Uruchomiono ./customer (PID: 226809)
+[Kasjer] Grupa 2 (PID 226809) dostała stolik 1
+[Klient PID: 226809] Zamówił: Wegetariańska (32 zł) | Stolik 1
+[Klient PID: 226809] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 226810)
+[Klient PID: 226810] Zamówił: Pepperoni (30 zł) | Stolik 2
+[Klient PID: 226810] Jem pizzę...
+[Kasjer] Grupa 2 (PID 226810) dostała stolik 2
+[Main] Uruchomiono ./customer (PID: 226811)
+[Main] Uruchomiono ./customer (PID: 226812)
+[Klient PID: 226809] Zjadłem. Wychodzę.
+[Klient PID: 226810] Zjadłem. Wychodzę.
+[Kasjer] Grupa 3 (PID 226812) dostała stolik 3
+[Klient PID: 226812] Zamówił: Margherita (25 zł) | Stolik 3
+[Klient PID: 226812] Jem pizzę...
+[Kasjer] Stolik 1 zwolniony przez grupę 2 (PID 226809)
+[Klient PID: 226811] Brak stolika. Wychodzę.
+[Kasjer] Grupa 3 (PID 226811) dostała stolik -1
+[Kasjer] Stolik 2 zwolniony przez grupę 2 (PID 226810)
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 226812)
+[Klient PID: 226812] Zjadłem. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 226813)
+[Klient PID: 226813] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 226813] Jem pizzę...
+[Kasjer] Grupa 3 (PID 226813) dostała stolik 2
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 226813)
+[Klient PID: 226813] Zjadłem. Wychodzę.
+[Kasjer] Wszyscy klienci obsłużeni. Łączna kwota: 2699 zł. Zamykanie reustaracji.
+
+= = = Statystyki programu = = =
+Czas trwania programu: 158.00 sekund
+Łączna liczba klientów wygenerowanych: 100
+Liczba klientów obsłużonych: 91
+Liczba klientów odrzuconych: 9
+Łączna liczba odebranych komunikatów: 100
+Średni czas obsługi klienta: 2.30 sekund
+Maksymalne użycie pamięci: 1064 KB
+Łączne obciążenie CPU: 131.78 sekund
+[Main] Wszystkie procesy zakończone

@@ -1,0 +1,67 @@
+[Main] Uruchomiono ./cashier (PID: 227050)
+[Kasjer] PID: 227050
+[Main] Uruchomiono ./customer (PID: 227051)
+[Klient PID: 227051] Zamówił: Wegetariańska (32 zł) | Stolik 2
+[Klient PID: 227051] Jem pizzę...
+[Kasjer] Grupa 3 (PID 227051) dostała stolik 2
+[Main] Uruchomiono ./customer (PID: 227052)
+[Klient PID: 227052] Zamówił: Margherita (25 zł) | Stolik 0
+[Klient PID: 227052] Jem pizzę...
+[Kasjer] Grupa 1 (PID 227052) dostała stolik 0
+[Main] Uruchomiono ./customer (PID: 227053)
+[Main] Uruchomiono ./customer (PID: 227054)
+[Main] Uruchomiono ./customer (PID: 227055)
+[Klient PID: 227051] Zjadłem. Wychodzę.
+[Klient PID: 227052] Zjadłem. Wychodzę.
+[Kasjer] Grupa 3 (PID 227055) dostała stolik 3
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 227051)
+[Kasjer] Grupa 3 (PID 227054) dostała stolik 2
+[Klient PID: 227055] Zamówił: Capricciosa (34 zł) | Stolik 3
+[Klient PID: 227055] Jem pizzę...
+[Klient PID: 227054] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 227054] Jem pizzę...
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 227052)
+[Klient PID: 227053] Brak stolika. Wychodzę.
+[Kasjer] Grupa 3 (PID 227053) dostała stolik -1
+[Main] Uruchomiono ./customer (PID: 227056)
+[Kasjer] Grupa 3 (PID 227056) dostała stolik -1
+[Klient PID: 227056] Brak stolika. Wychodzę.
+[Main] Uruchomiono ./customer (PID: 227057)
+[Kasjer] Grupa 1 (PID 227057) dostała stolik 0
+[Klient PID: 227057] Zamówił: Hawajska (28 zł) | Stolik 0
+[Klient PID: 227057] Jem pizzę...
+[Klient PID: 227054] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 227054)
+[Main] Uruchomiono ./customer (PID: 227058)
+[Klient PID: 227057] Zjadłem. Wychodzę.
+[Klient PID: 227055] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 227057)
+[Kasjer] Grupa 3 (PID 227058) dostała stolik 2
+[Kasjer] Stolik 3 zwolniony przez grupę 3 (PID 227055)
+[Klient PID: 227058] Zamówił: Hawajska (28 zł) | Stolik 2
+[Klient PID: 227058] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 227059)
+[Kasjer] Grupa 1 (PID 227059) dostała stolik 0
+[Klient PID: 227058] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 227058)
+[Klient PID: 227059] Zamówił: Pepperoni (30 zł) | Stolik 0
+[Klient PID: 227059] Jem pizzę...
+[Main] Uruchomiono ./customer (PID: 227060)
+[Kasjer] Grupa 3 (PID 227060) dostała stolik 2
+[Klient PID: 227060] Zamówił: Margherita (25 zł) | Stolik 2
+[Klient PID: 227060] Jem pizzę...
+[Klient PID: 227059] Zjadłem. Wychodzę.
+[Kasjer] Stolik 0 zwolniony przez grupę 1 (PID 227059)
+[Klient PID: 227060] Zjadłem. Wychodzę.
+[Kasjer] Stolik 2 zwolniony przez grupę 3 (PID 227060)
+[Kasjer] Wszyscy klienci obsłużeni. Łączna kwota: 227 zł. Zamykanie reustaracji.
+
+= = = Statystyki programu = = =
+Czas trwania programu: 16.00 sekund
+Łączna liczba klientów wygenerowanych: 10
+Liczba klientów obsłużonych: 8
+Liczba klientów odrzuconych: 2
+Łączna liczba odebranych komunikatów: 10
+Średni czas obsługi klienta: 2.29 sekund
+Maksymalne użycie pamięci: 1100 KB
+Łączne obciążenie CPU: 16.02 sekund

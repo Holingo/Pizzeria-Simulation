@@ -22,7 +22,7 @@
 #define X4 1  // Liczba stolików 4-osobowych
 
 // Konfiguracja symulacji
-#define TOTAL_CUSTOMERS 10     // Łączna liczba grup
+#define TOTAL_CUSTOMERS 1000     // Łączna liczba grup
 #define MAX_GROUP_SIZE 3       // Maksymalny rozmiar grupy
 #define MIN_GROUP_SIZE 1       // Minimalny rozmiar grupy
 #define RANDOM_DELAY_MAX 3    // Maksymalne opóźnienie między grupami
