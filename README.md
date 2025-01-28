@@ -315,20 +315,36 @@ Wyniki testów:
 ---
 
 ## Kluczowe fragmenty kodu
-### Tworzenie i obsługa plików
-[Kod źródłowy - `customer.c`](https://github.com/user/repo/blob/main/customer.c#L12)
+### Tworzenie i obsługa plików - `fopen()` `fclose(),`
+[Kod źródłowy - `customer.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L12-L25)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L12-L25
 
-### Tworzenie procesów
-[Kod źródłowy - `main.c`](https://github.com/user/repo/blob/main/main.c#L14)
+### Tworzenie procesów - `fork()` `ecec()` `exit()` `wait()`
+[Kod źródłowy - `main.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/main.c#L3-L23)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/main.c#L3-L23
 
-### Synchronizacja procesów
-[Kod źródłowy - `common.h`](https://github.com/user/repo/blob/main/common.h#L45)
+### Synchronizacja procesów - `semop()` `semget` `semctl`
+[Kod źródłowy - `common.h`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/common.h#L93-L101)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/common.h#L93-L101
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L69
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L10-L16
 
-### Obsługa sygnałów
-[Kod źródłowy - `cashier.c`](https://github.com/user/repo/blob/main/cashier.c#L56)
+### Obsługa sygnałów - `signal()` `kill`
+[Kod źródłowy - `cashier.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L122)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L122
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L25
 
-### Komunikacja między procesami
-[Kod źródłowy - `customer.c`](https://github.com/user/repo/blob/main/customer.c#L45)
+# Segmenty pamięci dzielonej  - `shmget()` `shmat()` `shmdt()` `shmctl()`
+[Kod źródłowy - `customer.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L62-L64)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L62-L64
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L51
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/common.h#L63-L72
+
+### Komunikacja między procesami - `msgget` `msgsnd` `msgrcv`
+[Kod źródłowy - `customer.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L71-L78)
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L71-L78
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L74
+https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L128-L133
 
 ---
 
