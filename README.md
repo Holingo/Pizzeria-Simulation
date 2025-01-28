@@ -146,6 +146,15 @@ Projekt symuluje działanie pizzerii, w której kelner zarządza restauracją, p
 ## Testy i wyniki
 Testy były przeprowadzane w następujących scenariuszach:
 1. Obsługa maksymalnej liczby klientów bez zakłóceń.
+- Przykładowy test dla liczby `10 osób`.
+https://github.com/Holingo/Pizzeria-Simulation/blob/fb58893f8f5537f8d42eed1c275fd7ae5b667cee/Logs/Log_10.txt#L59-L67
+
+- Przykładowy test dla liczby `100 osób`.
+https://github.com/Holingo/Pizzeria-Simulation/blob/fb58893f8f5537f8d42eed1c275fd7ae5b667cee/Logs/Log_100.txt#L578-L587
+
+- Przykładowy test dla liczby `1000 osób`.
+https://github.com/Holingo/Pizzeria-Simulation/blob/fb58893f8f5537f8d42eed1c275fd7ae5b667cee/Logs/Log_1000.txt#L5861-L5870
+
 2. Symulacja pożaru i ewakuacja klientów.
 3. Testy poprawności zarządzania zasobami stolików i pamięci współdzielonej.
 
