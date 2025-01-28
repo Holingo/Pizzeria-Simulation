@@ -156,7 +156,157 @@ https://github.com/Holingo/Pizzeria-Simulation/blob/fb58893f8f5537f8d42eed1c275f
 https://github.com/Holingo/Pizzeria-Simulation/blob/fb58893f8f5537f8d42eed1c275fd7ae5b667cee/Logs/Log_1000.txt#L5861-L5870
 
 2. Symulacja pożaru i ewakuacja klientów.
+```c
+[Main] Uruchomiono ./cashier (PID: 236515)
+[Kasjer] PID: 236515
+[Main] Uruchomiono ./customer (PID: 236516)
+[Kasjer] Grupa 1 (PID 236516) dostała stolik 0
+[Klient PID: 236516] Zamówił: Hawajska (28 zł) | Stolik 0
+...
+```
+
+```c
+    PID TTY          TIME CMD
+ 215219 pts/0    00:00:00 bash
+ 236514 pts/0    00:00:00 main
+ 236515 pts/0    00:00:07 cashier
+ 236516 pts/0    00:00:00 customer
+ 236517 pts/0    00:00:00 customer
+ 236518 pts/0    00:00:00 customer
+ 236519 pts/0    00:00:00 ps
+
+holingo@Oscar:~/Pizzeria-Simulation$ ./firefighter 236515
+
+[Strażak] Wysyłam sygnał pożaru do kasjera (PID: 236515)
+```
+
+```c
+[Kasjer] POŻAR! Ewakuacja wszystkich klientów!
+[Main] Kasjer zakończył działanie. Przerywanie generacji klientów.
+
+= = = Statystyki programu = = =
+Czas trwania programu: 38.00 sekund
+Łączna liczba klientów wygenerowanych: 3
+Liczba klientów obsłużonych: 3
+Liczba klientów odrzuconych: 0
+Łączna liczba odebranych komunikatów: 3
+Średni czas obsługi klienta: 11.50 sekund
+Maksymalne użycie pamięci: 1064 KB
+Łączne obciążenie CPU: 7.96 sekund
+[Main] Wszystkie procesy zakończone
+```
+
+```c
+    PID TTY          TIME CMD
+ 215219 pts/0    00:00:00 bash
+ 236583 pts/0    00:00:00 ps
+ ```
+
 3. Testy poprawności zarządzania zasobami stolików i pamięci współdzielonej.
+```c
+[Main] Uruchomiono ./cashier (PID: 236589)
+[Kasjer] PID: 236589
+[Main] Uruchomiono ./customer (PID: 236590)
+[Klient PID: 236590] Zamówił: Pepperoni (30 zł) | Stolik 1
+[Klient PID: 236590] Jem pizzę...
+[Kasjer] Grupa 2 (PID 236590) dostała stolik 1
+[Main] Uruchomiono ./customer (PID: 236591)
+...
+```
+
+```c
+    PID TTY          TIME CMD
+ 215219 pts/0    00:00:00 bash
+ 236588 pts/0    00:00:00 main
+ 236589 pts/0    00:00:06 cashier
+ 236590 pts/0    00:00:00 customer
+ 236591 pts/0    00:00:00 customer
+ 236593 pts/0    00:00:00 ps
+```
+
+```c
+ipcs:
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages
+0x0000238d 98316      holingo    666        0            0
+0x0000ae0c 98317      holingo    666        304          38
+0x00091011 131110     holingo    666        0            0
+0x5120bf3e 98354      holingo    666        192          23
+
+------ Shared Memory Segments --------
+key        shmid      owner      perms      bytes      nattch     status
+0x5320bf3e 163845     holingo    666        108        0
+0x000004d2 131116     holingo    666        432        0
+0x00001234 163888     holingo    666        152        3
+
+------ Semaphore Arrays --------
+key        semid      owner      perms      nsems
+0x0000162e 98316      holingo    666        1
+0x000142d1 98322      holingo    666        1
+0x00005678 131095     holingo    666        1
+0x4d20bf3e 98345      holingo    666        1
+```
+
+```c
+/proc/236589/status:
+Name:   cashier
+Umask:  0022
+State:  T (stopped)
+Tgid:   236589
+Ngid:   0
+Pid:    236589
+PPid:   236588
+TracerPid:      0
+Uid:    1000    1000    1000    1000
+Gid:    1000    1000    1000    1000
+FDSize: 64
+Groups: 4 20 24 25 27 29 30 44 46 100 107 1000
+NStgid: 236589
+NSpid:  236589
+NSpgid: 236588
+NSsid:  215219
+VmPeak:     2684 kB
+VmSize:     2684 kB
+VmLck:         0 kB
+VmPin:         0 kB
+VmHWM:      1096 kB
+VmRSS:      1096 kB
+RssAnon:              92 kB
+RssFile:            1004 kB
+RssShmem:              0 kB
+VmData:      224 kB
+VmStk:       132 kB
+VmExe:         4 kB
+VmLib:      1748 kB
+VmPTE:        44 kB
+VmSwap:        0 kB
+HugetlbPages:          0 kB
+CoreDumping:    0
+THP_enabled:    1
+Threads:        1
+SigQ:   2/15178
+SigPnd: 0000000000000000
+ShdPnd: 0000000000000000
+SigBlk: 0000000000000000
+SigIgn: 0000000000000000
+SigCgt: 0000000000000200
+CapInh: 0000000000000000
+CapPrm: 0000000000000000
+CapEff: 0000000000000000
+CapBnd: 000001ffffffffff
+CapAmb: 0000000000000000
+NoNewPrivs:     0
+Seccomp:        0
+Seccomp_filters:        0
+Speculation_Store_Bypass:       thread vulnerable
+SpeculationIndirectBranch:      conditional enabled
+Cpus_allowed:   3
+Cpus_allowed_list:      0-1
+Mems_allowed:   1
+Mems_allowed_list:      0
+voluntary_ctxt_switches:        2
+nonvoluntary_ctxt_switches:     36
+```
 
 Wyniki testów:
 - Wszystkie scenariusze zostały pozytywnie zaliczone.
