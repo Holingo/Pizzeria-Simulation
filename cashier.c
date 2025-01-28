@@ -3,16 +3,11 @@
 SharedData *shared_data;
 int shmid, semid, msgqid;
 
-void cleanup() {
-    // Zapisz zarobki przed zamknięciem
-    if (shared_data->fire_alarm == 0) {
-        FILE *fp = fopen(EARNINGS_FILE, "w");
-        if (fp) {
-            fprintf(fp, "Łączne zarobki: %d zł\n", shared_data->total_earnings);
-            fclose(fp);
-        }
-    }
+// Deklaracje funkcji
+void print_statistics();
+void print_resource_usage();
 
+void cleanup() {
     // Usuń wszystkie zasoby IPC, nawet jeśli kasjer jest "właścicielem"
     shmdt(shared_data);
     shmctl(shmid, IPC_RMID, NULL);
@@ -31,6 +26,8 @@ void sig_handler(int sig) {
         }
 
         // Natychmiastowe zniszczenie zasobów IPC
+        print_statistics();
+        print_resource_usage();
         cleanup();
         exit(0); // Zamknij kasjera BEZ CZEKANIA
     }
@@ -60,6 +57,15 @@ void init_resources() {
     shared_data->total_served = 0;    // Dodano inicjalizację
     shared_data->total_earnings = 0;  // Dodano inicjalizację
 
+    // Zwiazane dodawaniem informacji na koncu do raportu projektu
+    shared_data->stats.total_customers_generated = 0;
+    shared_data->stats.total_customers_served = 0;
+    shared_data->stats.total_customers_rejected = 0;
+    shared_data->stats.total_messages_received = 0;
+    shared_data->stats.average_service_time = 0.0;
+    shared_data->stats.start_time = time(NULL);
+    shared_data->stats.end_time = 0;
+
     semid = semget(SEM_KEY, 1, IPC_CREAT | 0666);
     union semun arg;
     arg.val = 1;
@@ -83,6 +89,7 @@ int assign_table(int group_size, pid_t pid) {
                 t->occupied += group_size;
                 table_id = i;
                 shared_data->total_served++; // Dodano!
+                shared_data->stats.total_customers_served++;
                 break;
             }
         }
@@ -117,13 +124,6 @@ int main() {
     printf("[Kasjer] PID: %d\n", getpid());
 
     while (1) {
-        // Sprawdź warunek zakończenia (wszyscy klienci obsłużeni)
-        if (shared_data->total_served >= TOTAL_CUSTOMERS && shared_data->num_customers == 0) {
-            printf(COLOR_GREEN "[Kasjer] Wszyscy klienci obsłużeni. Zamykanie pizzerii.\n" COLOR_RESET);
-            cleanup();
-            exit(0);
-        }
-
         RequestMsg req;
         if (msgrcv(msgqid, &req, sizeof(req) - sizeof(long), REQUEST_MTYPE, IPC_NOWAIT) > 0) {
             int table_id = assign_table(req.group_size, req.pid);
@@ -138,10 +138,37 @@ int main() {
             printf("[Kasjer] Stolik %d zwolniony przez grupę %d (PID %d)\n", rel.table_id, rel.group_size, rel.pid);
         }
 
-        if (shared_data->total_served >= TOTAL_CUSTOMERS && shared_data->num_customers == 0) {
+       if (shared_data->total_served + shared_data->stats.total_customers_rejected >= TOTAL_CUSTOMERS && shared_data->num_customers == 0) {
             printf(COLOR_GREEN "[Kasjer] Wszyscy klienci obsłużeni. Łączna kwota: %d zł. Zamykanie reustaracji.\n" COLOR_RESET, shared_data->total_earnings);
+            print_statistics();
+            print_resource_usage();
             cleanup();
             exit(0);
         }
     }
+}
+
+void print_statistics() {
+    lock_sem(semid); // Zabezpieczenie dostępu do shared_data
+    shared_data->stats.end_time = time(NULL);
+    double total_duration = difftime(shared_data->stats.end_time, shared_data->stats.start_time);
+
+    printf(COLOR_YELLOW "\n= = = Statystyki programu = = =\n" COLOR_RESET);
+    printf("Czas trwania programu: %.2f sekund\n", total_duration);
+    printf("Łączna liczba klientów wygenerowanych: %d\n", shared_data->stats.total_customers_generated);
+    printf("Liczba klientów obsłużonych: %d\n", shared_data->stats.total_customers_served);
+    printf("Liczba klientów odrzuconych: %d\n", shared_data->stats.total_customers_rejected);
+    printf("Łączna liczba odebranych komunikatów: %d\n", shared_data->stats.total_messages_received);
+    printf("Średni czas obsługi klienta: %.2f sekund\n", shared_data->stats.average_service_time);
+    unlock_sem(semid);
+}
+
+void print_resource_usage() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+
+    printf("Maksymalne użycie pamięci: %ld KB\n", usage.ru_maxrss);
+    printf("Łączne obciążenie CPU: %.2f sekund\n", 
+           usage.ru_utime.tv_sec + usage.ru_utime.tv_usec / 1e6 +
+           usage.ru_stime.tv_sec + usage.ru_stime.tv_usec / 1e6);
 }

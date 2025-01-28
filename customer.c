@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    time_t start_service = time(NULL); // Obliczanie czas procesu
+
     // Inicjalizacja
     int group_size = atoi(argv[1]);
     signal(SIGTERM, sig_handler);
@@ -73,8 +75,13 @@ int main(int argc, char *argv[]) {
     // Odbierz odpowiedź
     ReleaseMsg resp;
     msgrcv(msgqid, &resp, sizeof(resp) - sizeof(long), getpid(), 0);
+    shared_data->stats.total_messages_received++;
 
     if (resp.table_id == -1) {
+        lock_sem(semid); // Zabezpieczenie aktualizacji danych współdzielonych
+        shared_data->stats.total_customers_rejected++;
+        unlock_sem(semid);
+        
         printf(COLOR_RED "[Klient PID: %d] Brak stolika. Wychodzę.\n" COLOR_RESET, getpid());
         exit(0);
     }
@@ -96,5 +103,12 @@ int main(int argc, char *argv[]) {
     msgsnd(msgqid, &rel, sizeof(rel) - sizeof(long), 0);
 
     printf(COLOR_WHITE "[Klient PID: %d] Zjadłem. Wychodzę.\n" COLOR_RESET, getpid());
+    
+    // Po zakończeniu obsługi:
+    time_t end_service = time(NULL);
+    double service_time = difftime(end_service, start_service);
+    shared_data->stats.average_service_time = 
+        ((shared_data->stats.average_service_time * (shared_data->stats.total_customers_served - 1)) + service_time) 
+        / shared_data->stats.total_customers_served;
     return 0;
 }

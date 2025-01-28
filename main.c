@@ -46,21 +46,31 @@ int main() {
         int group_size = (rand() % (MAX_GROUP_SIZE - MIN_GROUP_SIZE + 1)) + MIN_GROUP_SIZE;
         char group_str[10];
         snprintf(group_str, sizeof(group_str), "%d", group_size);
-        
+
         launch_process("./customer", group_str);
+        shared_data->stats.total_customers_generated++; // Do statystyki
         sleep(rand() % (RANDOM_DELAY_MAX + 1));
     }
 
-    /* Uruchomienie strażaka z poprawnym PID kasjera
+    /*/ Uruchomienie strażaka z poprawnym PID kasjera
     sleep(DELAY_BEFORE_FIREFIGHTER);
     char pid_str[20];
     snprintf(pid_str, sizeof(pid_str), "%d", cashier_pid);
     launch_process("./firefighter", pid_str);*/
 
     // Zakończ główny proces, jeśli kasjer nie żyje
+    sleep(DELAY_BEFORE_FIREFIGHTER);
     kill(cashier_pid, SIGTERM); // Upewnij się, że kasjer jest zabity
-    while(wait(NULL) > 0);      // Poczekaj na wszystkie procesy potomne
-    
+
+    // Oczekiwanie na zakończenie kasjera
+    int status;
+    while(wait(&status) > 0);
+    waitpid(cashier_pid, &status, 0);
+
+    // Wyświetlanie statystyk
+    //print_statistics();
+    //print_resource_usage();
+
     // Odbierz zasoby IPC
     shmdt(shared_data);
     printf(COLOR_YELLOW "[Main] Wszystkie procesy zakończone\n" COLOR_RESET);

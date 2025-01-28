@@ -10,6 +10,7 @@
 #include <sys/sem.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/resource.h>
 #include <signal.h>
 #include <time.h>
 #include <errno.h>
@@ -24,7 +25,7 @@
 #define TOTAL_CUSTOMERS 10     // Łączna liczba grup
 #define MAX_GROUP_SIZE 3       // Maksymalny rozmiar grupy
 #define MIN_GROUP_SIZE 1       // Minimalny rozmiar grupy
-#define RANDOM_DELAY_MAX 2     // Maksymalne opóźnienie między grupami
+#define RANDOM_DELAY_MAX 3    // Maksymalne opóźnienie między grupami
 #define DELAY_BEFORE_FIREFIGHTER 10 // Opóźnienie przed uruchomieniem strażaka
 
 // Dodaj pliki zapisujace
@@ -50,7 +51,18 @@ typedef struct {
 } Pizza;
 
 typedef struct {
+    int total_customers_generated;    // Liczba wygenerowanych klientów
+    int total_customers_served;       // Liczba obsłużonych klientów
+    int total_customers_rejected;     // Liczba odrzuconych klientów
+    int total_messages_received;      // Łączna liczba odebranych komunikatów
+    double average_service_time;      // Średni czas obsługi
+    time_t start_time;                // Czas rozpoczęcia programu
+    time_t end_time;                  // Czas zakończenia programu
+} Statistics;
+
+typedef struct {
     Table tables[MAX_TABLES];
+    Statistics stats;
     int num_tables;
     volatile sig_atomic_t fire_alarm;
     pid_t customer_pids[TOTAL_CUSTOMERS];
@@ -87,6 +99,10 @@ static inline void unlock_sem(int semid) {
     struct sembuf op = {0, 1, 0};
     semop(semid, &op, 1);
 }
+
+// Deklaracje funkcji
+void print_statistics();
+void print_resource_usage();
 
 #define RED_BG "\033[41m"
 #define COLOR_RESET "\033[0m"
