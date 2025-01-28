@@ -1,4 +1,5 @@
-Margherita 25.00
-Pepperoni 30.00
-Capricciosa 28.00
-Hawajska 27.00
+Margherita 25
+Pepperoni 30
+Hawajska 28
+Wegetariańska 32
+Capricciosa 34

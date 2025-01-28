@@ -1,14 +1,25 @@
 CC = gcc
-CFLAGS = -Wall -pthread
-LDFLAGS = -lncurses
+CFLAGS = -Wall -Wextra
+TARGETS = main cashier customer firefighter
+DEPS = common.h
 
-OBJS = main.o client.o cashier.o firefighter.o utilities.o
+all: $(TARGETS)
 
-pizzeria: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o pizzeria
+# Główne programy
+main: main.c $(DEPS)
+	$(CC) $(CFLAGS) $< -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+cashier: cashier.c $(DEPS)
+	$(CC) $(CFLAGS) $< -o $@
 
+customer: customer.c $(DEPS)
+	$(CC) $(CFLAGS) $< -o $@
+
+firefighter: firefighter.c $(DEPS)
+	$(CC) $(CFLAGS) $< -o $@
+
+# Czyszczenie
 clean:
-	rm -f *.o pizzeria
+	rm -f $(TARGETS)
+
+.PHONY: all clean
