@@ -76,9 +76,9 @@ Projekt symuluje działanie pizzerii, w której kelner zarządza restauracją, p
 - Umożliwiają komunikację między procesami klientów a kelnerem.
 
 #### Sygnały
--Sygnały systemowe `SIGUSR1` `SIGTERM` są wykorzystywane do obsługi zdarzeń wyjątkowych:
- -Pożar (wyzwalany przez strażaka) powoduje ewakuację wszystkich klientów.
- -Procesy klientów są zamykane w kontrolowany sposób, a zasoby restauracji są zwalniane.
+- Sygnały systemowe `SIGUSR1` `SIGTERM` są wykorzystywane do obsługi zdarzeń wyjątkowych:
+ - Pożar (wyzwalany przez strażaka) powoduje ewakuację wszystkich klientów.
+ - Procesy klientów są zamykane w kontrolowany sposób, a zasoby restauracji są zwalniane.
 
 ---
 
