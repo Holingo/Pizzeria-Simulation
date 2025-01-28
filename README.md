@@ -335,7 +335,7 @@ https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a3
 https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L122
 https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/cashier.c#L25
 
-# Segmenty pamięci dzielonej  - `shmget()` `shmat()` `shmdt()` `shmctl()`
+### Segmenty pamięci dzielonej  - `shmget()` `shmat()` `shmdt()` `shmctl()`
 [Kod źródłowy - `customer.c`](https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L62-L64)
 https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L62-L64
 https://github.com/Holingo/Pizzeria-Simulation/blob/f6b261bbb2f393d427a464e319a31ccde51b4dfa/customer.c#L51
